@@ -13,7 +13,7 @@
                 alt="icone-requete"
               />
               <div class="link-container">
-                {{ route.name }}
+                <span>{{ route.name }}</span>
               </div>
             </div>
           </router-link>
@@ -52,8 +52,7 @@ export default {
            sessionLogout();
            this.$router.go(0);
           }
-      }) */
-      
+      }) */    
     },
     hi(route) {
       console.log("../../assets/" + route.iconeL);
@@ -65,29 +64,43 @@ export default {
 </script>
 
 <style scoped>
+.test {
+  position: fixed;
+  left: 0;
+  top: 70px;
+  /* height: calc(100vh - 100px); */
+  display: flex;
+  flex-direction: row;
+  /* display: grid;
+  grid-template-columns: 200px calc(100% - 200px); */
+  width: 100%;
+  height: 90vh;
+}
+.sideBar {
+  background-color: white;
+  width: 20%;
+  overflow-x: auto;
+  box-shadow: 0 4px 4px 0 #aaa;
+
+}
 .icone-link {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
-  gap: 7px;
+  padding:10px;
 }
 .icone {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
 }
 ul {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: left;
-  place-content: center;
   list-style-type: none;
-  margin: 0;
-  padding: 0;
-  background-color: white;
-  color: black;
-  width: 100%;
-  gap: 10px;
+  padding: 15px 0px 15px 15px;
+  position: relative;
+  right:0px;
 }
 ul li {
   list-style-type: none;
@@ -100,30 +113,22 @@ li .routerLink {
   min-width: 120px;
   border: solid 1px transparent;
   border-radius: 4px;
-  padding: 5px;
+  margin-bottom: 15px;
 }
-
-li .routerLink:hover,
-li .router-link-exact-active {
-  border: solid 1px midnightblue;
+.link-container{
+  margin-left:10px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  color: #09101D;
 }
-.test {
-  position: fixed;
-  left: 0;
-  top: 96px;
-  /* height: calc(100vh - 100px); */
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  /* display: grid;
-  grid-template-columns: 200px calc(100% - 200px); */
-}
-.sideBar {
-  background-color: white;
-  width: 100%;
-  overflow-x: auto;
-  box-shadow: 0 4px 4px 0 #aaa;
-  padding: 5px;
+li .routerLink:hover/* , li .router-link-exact-active */ {
+  background-color:#e4eee3;
+  border-right: 5px solid rgb(11, 35, 11);
+  border-radius: none;
 }
 ul button {
   background-color: transparent;
@@ -132,11 +137,7 @@ ul button {
   text-align: left;
   cursor: pointer;
 }
-
 .main {
-  height: 70vh;
-  overflow: auto;
-  width: 100%;
-  padding: 1% 7%;
+  width:80%;
 }
 </style>

@@ -1,11 +1,10 @@
 <template>
   <div>
 
-    <!-- <div class="container-msg" v-if="isOpen">
+    <div class="container-msg" v-if="isOpen">
        <span>Vous n'avez aucune opération en cours ...</span> 
        <span class="closeButton" @click="isOpen = false">X</span>
-    </div> -->
-
+    </div>
 
     <div class="divUser">
       
@@ -152,7 +151,7 @@ export default {
 .divUser {
   position:absolute;
   top:55%;
-  left:50%;
+  left:55%;
   transform: translate(-50%, -50%);
   width:60%;
   text-align: center;
@@ -216,6 +215,22 @@ label{
   background-color: #0a3c07;
   color: #fff;
   border-radius: 5px;
+}
+.container-msg {
+  padding: 20px;
+  width: 80%;
+  margin: 0 auto;
+  transform: translateY(-35px);
+  z-index: -1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0;
+  border-radius: 5px;
+  background-color: #3b589863;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 5%;
+  
 }
 
 

@@ -9,7 +9,7 @@
 import { getCurrentSessionUser, sessionLogout } from "../../services/storage";
 import { redirectIfNotLogin } from "../../services/guard";
 import Header from "../Formulaire/Header.vue";
-import Navigation from "../General/Navigation.vue";
+import Navigation from "../General/Navigation.vue"; 
 
 export default {
   name: "Navigation_Technicien",

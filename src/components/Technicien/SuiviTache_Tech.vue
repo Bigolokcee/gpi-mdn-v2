@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="container">
     <SubHeader
       entity="Suivi des tâches"
       isForProblems="yes"
       :nbrOfTask="filteredP.length"
       needSearchBar="no"
     />
-    <div class="trie">
+    <!--  <div class="trie">
       <div>
         <input
           type="radio"
@@ -51,9 +51,127 @@
         />
         <label for="termine">Terminée</label>
       </div>
+    </div> -->
+
+    <div class="statsContainer">
+
+      <div class="statDiv">
+        <div class="divIcon">
+          <span class="fas fa-arrow-right icon" style="background-color:#EEF2FA; color:blue;"></span>
+        </div>
+        <div class="stats">
+          <strong>10</strong>
+          <span style="font-size:12px;">Nouvelles requêtes</span>
+        </div>
+      </div>
+
+      <div class="statDiv">
+        <div class="divIcon">
+          <span class="fas fa-ellipsis-h icon" style="background-color:#EBDDF9; color:#9006C2"></span>
+        </div>        
+        <div class="stats">
+          <strong>10</strong>
+          <span style="font-size:12px;">Requêtes en attentes</span>
+        </div>
+      </div>
+
+      <div class="statDiv">
+        <div class="divIcon">
+          <span class="fas fa-ellipsis-h icon" style="background-color:#FFF4EC; color:#E07A2C;"></span>
+        </div>  
+        <div class="stats">
+          <strong>10</strong>
+          <span style="font-size:12px;">Requêtes en cours</span>
+        </div>
+      </div>
+
+      <div class="statDiv">
+        <div class="divIcon">
+          <span class="fas fa-check icon" style="background-color:#E6FAEE; color: #287D3C;"></span>
+        </div>  
+        <div class="stats">
+          <strong>10</strong>
+          <span style="font-size:12px;">Requêtes terminées</span>
+        </div>
+      </div>
+
     </div>
 
-    <div class="container-tiket">
+    <div class="divBeforeTable">
+      <h3>Requêtes reçentes</h3>
+      <a href="#">Voir toutes les requêtes <span class="fas fa-arrow-right"></span></a>
+    </div>
+
+    <div id="table-wrapper">
+      <div id="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Référence de la requête</th>
+              <th>Source</th>
+              <th>Auteur</th>
+              <th>Date de la requête</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Alfreds Futterkiste</td>
+              <td>Maria Anders</td>
+              <td>Germany</td>
+              <td>Alfreds Futterkiste</td>
+              <td>Maria Anders</td>
+              <td>
+                <button>Voir détails</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Centro comercial Moctezuma</td>
+              <td>Francisco Chang</td>
+              <td>Mexico</td>
+              <td>Alfreds Futterkiste</td>
+              <td>Maria Anders</td>
+              <td>
+                <button>Voir détails</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Ernst Handel</td>
+              <td>Roland Mendel</td>
+              <td>Austria</td>
+              <td>Alfreds Futterkiste</td>
+              <td>Maria Anders</td>
+              <td>
+                <button>Voir détails</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Ernst Handel</td>
+              <td>Roland Mendel</td>
+              <td>Austria</td>
+              <td>Alfreds Futterkiste</td>
+              <td>Maria Anders</td>
+              <td>
+                <button>Voir détails</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Ernst Handel</td>
+              <td>Roland Mendel</td>
+              <td>Austria</td>
+              <td>Alfreds Futterkiste</td>
+              <td>Maria Anders</td>
+              <td>
+                <button>Voir détails</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+   <!--  <div class="container-tiket">
       <section
         id="app"
         class="section container"
@@ -187,7 +305,8 @@
           </div>
         </article>
       </section>
-    </div>
+    </div> -->
+
   </div>
 </template>
 
@@ -382,6 +501,84 @@ export default {
 </script>
 
 <style scoped>
+
+/* Cyrus */
+.statsContainer{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.statDiv{
+  background: #FFFFFF;
+  border: 1px solid #A5ABB3;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  padding: 25px;
+  margin: 15px 0px 25px 0px;
+  width:24%
+}
+.stats{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.divIcon{
+  margin-right: 15px;
+}
+.divIcon .icon{
+  border-radius: 100%;  
+  padding:12px;
+}
+.container{
+  padding: 15px;
+  width:100%;
+}
+.divBeforeTable{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom:2%;
+}
+#table-wrapper {
+  position:relative;
+}
+#table-scroll {
+  height:55vh;
+  overflow:auto;  
+  margin-top:20px;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  border:1px solid transparent;
+  overflow-y: scroll; 
+}
+th{
+  background-color: #e4eee3;
+
+  position: sticky;
+  top: 0;
+
+}
+td{
+  background-color: #ffffff;
+}
+td, th {
+  text-align: left;
+  padding: 15px;
+  border-bottom:1px solid #ccc;
+}
+button{
+  padding: 8px;
+  background-color: #ffffff;
+  border: 1px solid #6D7580;
+  border-radius: 6px;
+}
+
+/* FIN CYRUS */
+
 hr {
   width: 95%;
   margin-left: 30px;
