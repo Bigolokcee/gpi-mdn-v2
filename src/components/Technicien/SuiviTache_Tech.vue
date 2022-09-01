@@ -116,55 +116,30 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>Germany</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
+            <tr  id="app"
+              class="section container"
+              v-for="(p, index) in filtered()"
+              :key="p._id">
+              
+              <td :class="showPbClass[index]">{{ index + 1 }}</td>
+              <td>{{ p.sender.fonction }} - {{ p.sender.direction.code }}</td>
+              <td>{{ p.sender.nom }}  {{ p.sender.prenom }}</td>
+              <td>{{ p.createdAt[2] | timing }}</td>
+              <td>
+                <i class="fas fa-circle statusEnCours" v-if="p.statut == 'true' && p.isProgress == true">
+                  <span>En cours</span>
+                </i>
+                <i class="fas fa-circle statusEnAttente" v-else-if="p.statut == 'false'">
+                  <span>En attente</span>
+                </i>
+                <i class="fas fa-circle statusTermine" v-else-if="p.isProgress == false">
+                  <span>Terminé</span>
+                </i>
+              </td>
               <td>
                 <button>Voir détails</button>
               </td>
-            </tr>
-            <tr>
-              <td>Centro comercial Moctezuma</td>
-              <td>Francisco Chang</td>
-              <td>Mexico</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>
-                <button>Voir détails</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Ernst Handel</td>
-              <td>Roland Mendel</td>
-              <td>Austria</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>
-                <button>Voir détails</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Ernst Handel</td>
-              <td>Roland Mendel</td>
-              <td>Austria</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>
-                <button>Voir détails</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Ernst Handel</td>
-              <td>Roland Mendel</td>
-              <td>Austria</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>
-                <button>Voir détails</button>
-              </td>
+              
             </tr>
           </tbody>
         </table>
@@ -619,5 +594,27 @@ p {
   margin-top: 10px;
   margin-left: 22px;
   font-size: 18px;
+}
+.statusEnCours{
+  color:#9006C2;
+  padding: 4px 8px;
+  border-radius: 40px;
+  background: #F9EBFE;
+  font-size: 15px;
+}
+.statusEnAttente{
+  padding: 4px 8px;
+  border-radius: 40px;
+  color: #D96C19;
+  background: #FCF1E8;
+}
+.statusTermine{
+  padding: 4px 8px;
+  border-radius: 40px;
+  background: #EDF9F0;
+  color:green;
+}
+.statusEnCours span, .statusEnAttente span, .statusTermine span{
+  margin-left: 5px;
 }
 </style>
