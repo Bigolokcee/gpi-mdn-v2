@@ -18,20 +18,19 @@ import { _DB_URL } from '../../src/services/environment';
 require('dotenv').config();
 
 const app = express();
-const wss = expressWs(app).getWss()
+const wss = expressWs(app).getWss();
 app.use(express.json());
 app.use(cors());
 
 // Connection a la base de donnees mongo
 mongoose.connect(_DB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
 });
 
 app.use('/tutelles', tutelleRouter);
-
 app.use('/directions', directionRouter);
 app.use('/fournisseurs', fournisseurRouter);
 app.use('/modeles', modeleRouter);
@@ -40,7 +39,7 @@ app.use('/categories', categorieRouter);
 app.use('/materiels', materielRouter);
 app.use('/historiques', historiqueCtrl);
 app.use('/users', userRouter);
-app.use('/probleme', problemRouter(wss))
+app.use('/probleme', problemRouter(wss));
 
 const PORT = process.env.PORT || 5500;
 

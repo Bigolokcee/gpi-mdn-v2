@@ -10,6 +10,6 @@ ModeleRouter.post('/', ModeleCtrl.create);
 ModeleRouter.put('/:id', ModeleCtrl.update);
 ModeleRouter.delete('/:id', ModeleCtrl.remove);
 ModeleRouter.delete('/', ModeleCtrl.deleteAll);
-ModeleRouter.get('/statistique', ModeleCtrl.getStatistique)
+ModeleRouter.get('/statistique', ModeleCtrl.getStatistique);
 
 export default ModeleRouter;

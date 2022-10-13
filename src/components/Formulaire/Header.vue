@@ -9,7 +9,9 @@
         <Search />
       </div> -->
     </nav>
-    <span class="appTitle">Système de gestion informatisée du parc informatique et des pannes</span>
+    <span class="appTitle"
+      >Système de gestion informatisée du parc informatique et des pannes</span
+    >
     <nav class="divIcone">
       <span class="dropbtn name" style="color: #fff">
         <i class="fas fa-user" style="color: #fff"></i>
@@ -98,10 +100,10 @@
     height: 70px;
     left: 0px;
     top: 0px;
-    background: #085a03;
+    background: #3b5998;
   }
-  .appTitle{
-    color:#fff;
+  .appTitle {
+    color: #fff;
     font-size: 20px;
     text-transform: uppercase;
     max-width: 600px;
@@ -109,7 +111,7 @@
   img:hover {
     opacity: 0.7;
     transition: all 0.3s ease-in-out;
-  } 
+  }
   .divIcone {
     display: flex;
     flex-direction: row;

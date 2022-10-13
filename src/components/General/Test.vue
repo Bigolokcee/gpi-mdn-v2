@@ -1,22 +1,21 @@
 <template>
   <div>
-      <div class="container-msg" v-if="isOpen">
-        <span>Vous n'avez aucune opération en cours ...</span> 
-        <span class="closeButton" @click="isOpen = false">X</span>
-      </div>
+    <div class="container-msg" v-if="isOpen">
+      <span>Vous n'avez aucune opération en cours ...</span>
+      <span class="closeButton" @click="isOpen = false">X</span>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-    components: {
-  },
-  data(){
-    return {
-      isOpen: true
-    }
-  }
-}
+  export default {
+    components: {},
+    data() {
+      return {
+        isOpen: true,
+      };
+    },
+  };
 </script>
 
 <style>
@@ -33,11 +32,9 @@ export default {
     border-radius: 5px;
     background-color: rgb(206, 208, 231);
     text-align: center;
-    font-family: 'Roboto', sans-serif;  
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    
   }
   .closeButton {
     font-size: 25px;

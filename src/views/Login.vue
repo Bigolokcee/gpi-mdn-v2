@@ -14,7 +14,7 @@
           {{ error }}
         </div>
 
-        <div style="margin-top:20px">
+        <div style="margin-top: 20px">
           <label for="">Identifiant</label><br />
           <input
             v-model="username"
@@ -24,7 +24,7 @@
           />
         </div>
 
-        <div style="margin-top:20px">
+        <div style="margin-top: 20px">
           <div class="passwordInputHead">
             <label for="">Mot de Passe</label>
             <span class="passwordForget">Mot de passe oublié ?</span>
@@ -42,7 +42,6 @@
 
 <script>
   import Swal from 'sweetalert2';
-  // import { _SERVER_URL } from "../services/environment";
   import {
     changeTitle,
     displayMessage,
@@ -90,7 +89,7 @@
                 this.$router.push('/dashboard');
                 break;
               case 'administrateur':
-                this.$router.push('/admin');
+                this.$router.push('/routerShow');
                 break;
               case 'chefDivision':
                 this.$router.push('/chefDivision');
@@ -154,7 +153,7 @@
 </script>
 
 <style lang="scss" scoped>
-  *{
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -162,7 +161,7 @@
   .containBigAll {
     position: relative;
     height: 100vh;
-    background: url("../assets/image 1.png") 
+    background: url('../assets/image 1.png');
   }
   .containerAll {
     position: absolute;
@@ -185,7 +184,6 @@
     max-width: 500px;
     width: 297px;
     height: 80px;
-    font-family: 'Montserrat';
     font-style: normal;
     font-weight: 600;
     font-size: 32px;
@@ -203,7 +201,6 @@
     width: 100%;
   }
   div label {
-    font-family: 'Montserrat';
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
@@ -221,7 +218,7 @@
   div .button {
     width: 100%;
     margin-top: 25px;
-    background: #085a03;
+    background: #3b5998;
     border-radius: 5.94128px;
     padding: 10.3972px;
     text-align: center;
@@ -229,19 +226,18 @@
   }
   .loginError {
     text-align: center;
-    font-family: 'Montserrat';
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
     line-height: 22px;
     color: #07294d;
   }
-  .passwordInputHead{
+  .passwordInputHead {
     display: flex;
     justify-content: space-between;
   }
-  .passwordForget{
-    color:#085A03;
+  .passwordForget {
+    color: #3b5998;
     text-decoration: underline;
     font-weight: bold;
   }

@@ -11,24 +11,21 @@
 </template>
 
 <script>
-import Navigation from "../components/Admin/Navigation.vue";
-import { redirectIfNotLogin } from '../services/guard';
+  import Navigation from '../components/Admin/Navigation.vue';
+  import { redirectIfNotLogin } from '../services/guard';
 
-export default {
-  name: "Admin",
-  components: {
-    Navigation,
-  },
-  mounted() {
-    redirectIfNotLogin(this.$router);
-    Notification.requestPermission(status => {
-      console.log(status);
-    });
-  }
-  
-}
+  export default {
+    name: 'Admin',
+    components: {
+      Navigation,
+    },
+    mounted() {
+      redirectIfNotLogin(this.$router);
+      Notification.requestPermission((status) => {
+        console.log(status);
+      });
+    },
+  };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

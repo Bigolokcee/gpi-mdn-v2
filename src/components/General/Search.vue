@@ -1,57 +1,69 @@
 <template>
-   <div class="field">
-       {{ dataSource }}
-    <input type="text" v-model="letter" @keydown="loadAutocompleteData" :placeholder="placeholder">
+  <div class="field">
+    {{ dataSource }}
+    <input
+      type="text"
+      v-model="letter"
+      @keydown="loadAutocompleteData"
+      :placeholder="placeholder"
+    />
     <div class="load" v-if="letter != 0">
-      <ul>
-      </ul>
-        <li v-for="data,i in dataSource" :key="i">
-          {{ dataSource }}
-        </li>
-        <li class = "hideLi" v-if="isClickable">
-         <span>+</span>
-        </li>
+      <ul></ul>
+      <li v-for="(data, i) in dataSource" :key="i">
+        {{ dataSource }}
+      </li>
+      <li class="hideLi" v-if="isClickable">
+        <span>+</span>
+      </li>
     </div>
   </div>
-
 </template>
 
 <script>
-export default {
-    data(){
-        return {
-            letter: '',
-            follow: '',
-            data: [],
-            isClickable: false,
-            autocompleteData: ["Ceci est", "Un test", "Wesh ma","Wessh ma", "Geule"],
-        }
+  export default {
+    data() {
+      return {
+        letter: '',
+        follow: '',
+        data: [],
+        isClickable: false,
+        autocompleteData: [
+          'Ceci est',
+          'Un test',
+          'Wesh ma',
+          'Wessh ma',
+          'Geule',
+        ],
+      };
     },
     props: {
-        dataSource: Array,
-        placeholder: String
+      dataSource: Array,
+      placeholder: String,
     },
     methods: {
-    async loadAutocompleteData(e) {
-        console.log(this.dataSource)
-    var donnee = this.dataSource;
-      this.data = this.autocompleteData.filter( f => f.toLowerCase().includes(this.letter.toLowerCase()));
-      if ( e.key === "Backspace") {
-        this.data = this.autocompleteData.filter( f => f.toLowerCase().includes(this.letter.toLowerCase()));
-        if ( this.letter.length === 0) {
+      async loadAutocompleteData(e) {
+        console.log(this.dataSource);
+        this.data = this.autocompleteData.filter((f) =>
+          f.toLowerCase().includes(this.letter.toLowerCase())
+        );
+        if (e.key === 'Backspace') {
+          this.data = this.autocompleteData.filter((f) =>
+            f.toLowerCase().includes(this.letter.toLowerCase())
+          );
+          if (this.letter.length === 0) {
+            this.isClickable = false;
+          }
+        }
+        if (this.letter.length != 0 && this.data.length === 0) {
+          this.isClickable = true;
+        } else {
           this.isClickable = false;
         }
-      }
-     if ( this.letter.length != 0 && this.data.length === 0 ) {
-       this.isClickable = true;
-     } else {
-       this.isClickable = false;
-     }
 
-    //  console.log(this.datas)
+        //  console.log(this.datas)
+      },
     },
-    }
-}
+  };
 </script>
 
 <style scoped>
@@ -72,23 +84,19 @@ export default {
     height: auto;
     background: #fff;
     width: 100%;
-  box-shadow: 0px 0px 9px 1px rgba(0,0,0,0.67);
--webkit-box-shadow: 0px 0px 9px 1px rgba(0,0,0,0.67);
--moz-box-shadow: 0px 0px 9px 1px rgba(0,0,0,0.67);
-
-
+    box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.67);
+    -webkit-box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.67);
+    -moz-box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.67);
   }
   .load ul {
     display: flex;
     flex-direction: row;
-    
   }
   .load li {
     list-style-type: none;
     width: 100%;
     padding: 5px;
     margin-top: 5px;
-    
   }
   .load li:hover {
     cursor: pointer;
@@ -96,7 +104,6 @@ export default {
   }
   .hideLi {
     text-align: center;
-
   }
   .hideLi span {
     font-size: 2em;

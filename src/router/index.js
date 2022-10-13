@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Login from '../views/Login.vue';
 /* ADMIN */
-import Admin from '../views/Admin.vue'
+import Admin from '../views/Admin.vue';
 import Direction from '../components/Admin/Direction.vue';
 import Fonction from '../components/Admin/Fonction.vue';
 import Admin_Utilisateur from '../components/Admin/Admin_Utilisateur.vue';
@@ -12,7 +12,7 @@ import Home_Admin from '../components/Admin/Home.vue';
 import Historique from '../components/Admin/Historique.vue';
 import Statistique from '../components/Admin/Statistique.vue';
 import Tache from '../components/Admin/Tache.vue';
-import RouterShow from '../components/Admin/RouterShow';
+import RouterShow from '../components/Admin/RouterShow.vue';
 import Modele from '../components/Admin/Modele';
 
 /* --------------------- */
@@ -23,39 +23,34 @@ import Utilisateur_Home from '../components/Utilisateur/Utilisateur_Home.vue';
 /* --------------------- */
 
 /* TECHNICIEN */
-import Home_Tech from '../components/Technicien/Home.vue'
+import Home_Tech from '../components/Technicien/Home.vue';
 /* import Intervention from '../components/Technicien/Intervention.vue' */
-import SuiviTache_Tech from '../components/Technicien/SuiviTache_Tech.vue'
+import SuiviTache_Tech from '../components/Technicien/SuiviTache_Tech.vue';
 /* --------------------- */
 
 /* CHEF DIVISION */
-import Home_CD from '../components/ChefDivision/Home.vue'
-import AssignerT from '../components/ChefDivision/AssignerT.vue'
-import SuiviT from '../components/ChefDivision/SuiviT.vue'
+import Home_CD from '../components/ChefDivision/Home.vue';
+import AssignerT from '../components/ChefDivision/AssignerT.vue';
+import SuiviT from '../components/ChefDivision/SuiviT.vue';
 /* --------------------- */
 /* GENERAL */
-import Research from '../components/General/Research.vue'
-import Test from '../components/General/Test.vue'
+import Research from '../components/General/Research.vue';
+import Test from '../components/General/Test.vue';
 
 // import Tutelle from '../components/Root/Tutelle.vue'
 
 /* ROOT */
-import Dashboard from '../components/Root/Dashboard.vue'
-import Fournisseur from '../components/Admin/Fournisseur.vue'
+import Dashboard from '../components/Root/Dashboard.vue';
+import Fournisseur from '../components/Admin/Fournisseur.vue';
 
-
-
-
-Vue.use(VueRouter)
-
+Vue.use(VueRouter);
 
 const routes = [
   /* ADMIN */
   {
     path: '/routerShow',
     name: 'RouterShow',
-    component: RouterShow
-
+    component: RouterShow,
   },
   /* ROOT */
   {
@@ -66,7 +61,7 @@ const routes = [
       {
         path: '/',
         name: 'Direction',
-        component: Direction
+        component: Direction,
       },
       // {
       //   path: 'tutelles',
@@ -76,46 +71,44 @@ const routes = [
       {
         path: 'fonctions',
         name: 'Fonction',
-        component: Fonction
+        component: Fonction,
       },
       {
         path: 'utilisateurs',
         name: 'Admin_Utilisateur',
-        component: Admin_Utilisateur
+        component: Admin_Utilisateur,
       },
       {
         path: 'categories',
         name: 'Categorie',
-        component: Categorie
+        component: Categorie,
       },
       // {
       //   path: '/',
       //   name: 'Tutelle',
       //   component: Tutelle
-      // }, 
+      // },
       {
         path: 'fournisseurs',
         name: 'Fournisseur',
-        component: Fournisseur
-    
+        component: Fournisseur,
       },
       {
         path: 'modeles',
         name: 'Modele',
-        component: Modele
-    
+        component: Modele,
       },
       {
-        path: "materiels",
-        name: "Materiel",
-        component: Materiel
+        path: 'materiels',
+        name: 'Materiel',
+        component: Materiel,
       },
       {
         path: 'suiviTache',
         name: 'SuiviT',
-        component: SuiviT
-      }
-    ]
+        component: SuiviT,
+      },
+    ],
   },
   {
     path: '/admin',
@@ -125,27 +118,27 @@ const routes = [
       {
         path: '',
         name: 'Home_Admin',
-        component: Home_Admin
+        component: Home_Admin,
       },
       {
         path: 'tache',
         name: 'Tache',
-        component: Tache
+        component: Tache,
       },
       {
         path: 'recherche',
         name: 'Research',
-        component: Research
+        component: Research,
       },
       {
         path: 'statistique',
         name: 'Statistique',
-        component: Statistique
+        component: Statistique,
       },
       {
         path: 'directions',
         name: 'Direction',
-        component: Direction
+        component: Direction,
       },
       // {
       //   path: 'tutelles',
@@ -155,56 +148,54 @@ const routes = [
       {
         path: 'fonctions',
         name: 'Fonction',
-        component: Fonction
+        component: Fonction,
       },
       {
         path: 'suiviTache',
         name: 'SuiviT',
-        component: SuiviT
+        component: SuiviT,
       },
       {
-        path: "utilisateurs",
-        name: "Admin_Utilisateur",
-        component: Admin_Utilisateur
-
+        path: 'utilisateurs',
+        name: 'Admin_Utilisateur',
+        component: Admin_Utilisateur,
       },
       {
-        path: "historiques",
-        name: "Historique",
-        component: Historique
-
+        path: 'historiques',
+        name: 'Historique',
+        component: Historique,
       },
       {
-        path: "categories",
-        name: "Categorie",
-        component: Categorie
+        path: 'categories',
+        name: 'Categorie',
+        component: Categorie,
       },
       {
-        path: "materiels",
-        name: "Materiel",
-        component: Materiel
+        path: 'materiels',
+        name: 'Materiel',
+        component: Materiel,
       },
       {
-        path: "fournisseurs",
-        name: "Fournisseur",
-        component: Fournisseur
+        path: 'fournisseurs',
+        name: 'Fournisseur',
+        component: Fournisseur,
       },
       {
-        path: "modeles",
-        name: "Modele",
-        component: Modele
+        path: 'modeles',
+        name: 'Modele',
+        component: Modele,
       },
       {
-        path: "problemes",
-        name: "Probleme",
-        component: Probleme
-      }
-    ]
+        path: 'problemes',
+        name: 'Probleme',
+        component: Probleme,
+      },
+    ],
   },
   {
     path: '/test',
     name: 'Test',
-    component: Test
+    component: Test,
   },
   /* CHEF DIVISION */
   {
@@ -225,9 +216,9 @@ const routes = [
       {
         path: 'suivi',
         name: 'SuiviT',
-        component: SuiviT
-      }
-    ]
+        component: SuiviT,
+      },
+    ],
   },
   /* TECHNICIEN */
   {
@@ -236,7 +227,7 @@ const routes = [
     component: Home_Tech,
     children: [
       {
-      path: '/',    
+        path: '/',
         name: 'SuiviTache_Tech',
         component: SuiviTache_Tech,
       },
@@ -244,26 +235,25 @@ const routes = [
         path: 'probleme',
         name: 'Probleme',
         component: Probleme,
-      }/*,
+      } /*,
        {
         path: '/',
         name: 'Intervention',
         component: Intervention,
-      }, */
-
-    ]
+      }, */,
+    ],
   },
   /* UTILISATEUR */
   {
     path: '/utilisateur',
     name: 'Utilisateur_Home',
-    component: Utilisateur_Home
+    component: Utilisateur_Home,
   },
   /* CONNEXION */
   {
     path: '/',
     name: 'Login',
-    component: Login
+    component: Login,
   },
   //Test Ticket-----------------
   {
@@ -272,13 +262,12 @@ const routes = [
     component: Test,
   },
   //-------------------------------
-
-]
+];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

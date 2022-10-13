@@ -8,7 +8,7 @@
       :nbrOfTask="problems.length"
       needSearchBar="no"
     />
-     <Loader :data="problems"/>
+    <Loader :data="problems" />
 
     <!-- body requete -->
     <!-- <h1 v-if = "problems.length === 0" style="text-align: center">Vous n'avez aucune tache en cours !</h1> -->
@@ -24,7 +24,7 @@
           <div class="containerInfoProblem">
             <div class="deskAndTime">
               <div class="desk">
-                <h4 style="font-weight: 200; font-size:15px;">
+                <h4 style="font-weight: 200; font-size: 15px">
                   <i class="fa fa-map-marker"></i>
                   {{ p.sender.fonction }} -
                   {{ p.sender.direction.code }}
@@ -66,9 +66,9 @@
             <p>
               <select name="" id="" @change="select" class="selectMateriel">
                 <option value="">Selectionner un chef division</option>
-                <option v-for="c in chefDivisions" :key="c._id" :value="c._id"
-                  >{{ c.nom }} {{ c.prenom }}</option
-                >
+                <option v-for="c in chefDivisions" :key="c._id" :value="c._id">
+                  {{ c.nom }} {{ c.prenom }}
+                </option>
               </select>
               <button class="button" @click="assign(p)">
                 ASSIGNER LA TACHE
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-/* document.querySelector('.message-header').addEventListener('click', showPb);
+  /* document.querySelector('.message-header').addEventListener('click', showPb);
 
     function showPb(){
       document.querySelector('message').classList.add('is-closed')
@@ -109,178 +109,171 @@
         document.querySelector('message').style.maxHeight = '10em'
     } */
 
-import { _WS_URL } from "../../services/environment";
-import {
-  //displayMessage,
-  getTimeElapsedSinceGettingTask,
-} from "../../services/functions";
-import { getCurrentSessionUser } from "../../services/storage";
-import SubHeader from "../General/SubHeader.vue";
-import Loader from "../General/Loader.vue";
-import Pagination from "../Formulaire/Pagination.vue";
-import { load, update } from "../../services/functions";
-import Swal from "sweetalert2";
+  import { _WS_URL } from '../../services/environment';
+  import {
+    //displayMessage,
+    getTimeElapsedSinceGettingTask,
+  } from '../../services/functions';
+  import { getCurrentSessionUser } from '../../services/storage';
+  import SubHeader from '../General/SubHeader.vue';
+  import Loader from '../General/Loader.vue';
+  import Pagination from '../Formulaire/Pagination.vue';
+  import { load, update } from '../../services/functions';
+  import Swal from 'sweetalert2';
 
-//import Ticket from '../General/Ticket.vue'
-export default {
-  components: { Pagination, SubHeader,Loader },
-  name: "Home",
+  //import Ticket from '../General/Ticket.vue'
+  export default {
+    components: { Pagination, SubHeader, Loader },
+    name: 'Home',
 
-  data() {
-    return {
-      isOpen: [],
-      problems: [],
-      chefDivisions: [],
-      selected: null,
-      socket: null,
-      user: getCurrentSessionUser(),
-      toogleTicket: "",
-      nbreTask: "",
-      /*accordion*/
-      isOpened: true,
-      problemReduce: [],
-      tutelleId: getCurrentSessionUser().tutelle,
-      admins: [],
-      superAdminData: []
-      /*  showPbClass:{
+    data() {
+      return {
+        isOpen: [],
+        problems: [],
+        chefDivisions: [],
+        selected: null,
+        socket: null,
+        user: getCurrentSessionUser(),
+        toogleTicket: '',
+        nbreTask: '',
+        /*accordion*/
+        isOpened: true,
+        problemReduce: [],
+        tutelleId: getCurrentSessionUser().tutelle,
+        admins: [],
+        superAdminData: [],
+        /*  showPbClass:{
        'is-closed':this.isOpen
      } */
-    };
-  },
+      };
+    },
 
-  mounted() {
-    this.loadProblems();
-    this.loadChefDivisions();
-    this.handleWs();
-    this.assign();
-  },
-  /*  computed:{
+    mounted() {
+      this.loadProblems();
+      this.loadChefDivisions();
+      this.handleWs();
+      this.assign();
+    },
+    /*  computed:{
     addClassList(){
       return ''
     }
   }, */
 
-  methods: {
-    select(e) {
-      this.selected = e.target.value;
-    },
+    methods: {
+      select(e) {
+        this.selected = e.target.value;
+      },
 
-    async loadProblems() {
-      /*  Afficher les problemes selon la Tutelle*/
-      // const p = await load("probleme?§"+this.tutelleId);
-      // const p = await load("probleme?tutelle="+this.tutelleId);
-      const p = await load("probleme")
-      this.problems = p.data;
-      console.log(this.tutelleId)
-      this.isOpen = new Array(this.problems.length).fill(false);
+      async loadProblems() {
+        /*  Afficher les problemes selon la Tutelle*/
+        // const p = await load("probleme?§"+this.tutelleId);
+        // const p = await load("probleme?tutelle="+this.tutelleId);
+        const p = await load('probleme');
+        this.problems = p.data;
+        console.log(this.tutelleId);
+        this.isOpen = new Array(this.problems.length).fill(false);
 
-      this.nbreTask = this.problems.length;
-    },
+        this.nbreTask = this.problems.length;
+      },
 
-    async loadChefDivisions() {
-      // const c = await load("users?tutelle="+this.tutelleId+"&statut=chefDivision");
-      const c = await load("users/all?statut=chefDivision");
-      this.chefDivisions = c.data;
-    },
+      async loadChefDivisions() {
+        // const c = await load("users?tutelle="+this.tutelleId+"&statut=chefDivision");
+        const c = await load('users/all?statut=chefDivision');
+        this.chefDivisions = c.data;
+      },
 
-    async assign(p) {
-      p.assignedTo = this.selected;
-      p.createdAt.push(new Date().toISOString());
+      async assign(p) {
+        p.assignedTo = this.selected;
+        p.createdAt.push(new Date().toISOString());
 
+        await update('probleme/' + p._id, {
+          assignedTo: p.assignedTo,
+          createdAt: p.createdAt,
+        });
 
-      await update("probleme/" + p._id, {
-        assignedTo: p.assignedTo,
-        createdAt: p.createdAt,
-      });
+        //displayMessage("T-Ass");
+        Swal.fire('Assignée', 'La tâche a été assigné avec succès', 'success');
+        this.loadProblems();
+        // this.socket.send(JSON.stringify(p));
+      },
+      async handleWs() {
+        const ws = new WebSocket(_WS_URL + 'probleme/admin');
+        this.socket = ws;
 
-      //displayMessage("T-Ass");
-      Swal.fire("Assignée", "La tâche a été assigné avec succès", "success");
-      this.loadProblems();
-      // this.socket.send(JSON.stringify(p));
-    },
-    async handleWs() {
-      const ws = new WebSocket(_WS_URL + "probleme/admin");
-      this.socket = ws;
-
-      this.socket.onopen = (event) => {
-        console.log("Socket connected", event);
-        ws.onmessage = (msg) => {
-          const n = new Notification("Nouveau message");
-          console.log(n, msg);
+        this.socket.onopen = (event) => {
+          console.log('Socket connected', event);
+          ws.onmessage = (msg) => {
+            const n = new Notification('Nouveau message');
+            console.log(n, msg);
+          };
         };
-      };
+      },
+      async loadAdmins() {
+        var superAdmin = 'root';
+        // Charge tous les admins de la tutelle du Super Admin
+        var spData = await load('users/all?statut=' + superAdmin);
+        this.superAdminData = spData.data;
+
+        // var adminData = await load("users?tutelleCode="this.superAdminData[0].tutelle._);
+      },
+
+      showPb: function (i) {
+        this.isOpen[i] = !this.isOpen[i];
+        this.isOpen = [...this.isOpen];
+        console.log(this.showPbClass, this.isOpen);
+      },
     },
-    async loadAdmins() {
-      var superAdmin = 'root'
-      // Charge tous les admins de la tutelle du Super Admin
-      var spData = await load("users/all?statut="+superAdmin);
-      this.superAdminData = spData.data
 
-      // var adminData = await load("users?tutelleCode="this.superAdminData[0].tutelle._);
-
-
-
-
-
-
-},
-
-    showPb: function(i) {
-      this.isOpen[i] = !this.isOpen[i];
-      this.isOpen = [...this.isOpen];
-      console.log(this.showPbClass, this.isOpen);
+    computed: {
+      showPbClass: function () {
+        const openClasses = [];
+        this.isOpen.forEach((it) =>
+          openClasses.push({
+            'is-closed': !it,
+            'is-primary': it,
+            'is-dark': it,
+          })
+        );
+        return openClasses;
+      },
     },
-  },
 
-  computed: {
-    showPbClass: function() {
-      const openClasses = [];
-      this.isOpen.forEach((it) =>
-        openClasses.push({
-          "is-closed": !it,
-          "is-primary": it,
-          "is-dark": it,
-        })
-      );
-      return openClasses;
+    filters: {
+      timing(time) {
+        return getTimeElapsedSinceGettingTask(time);
+      },
     },
-  },
-
-  filters: {
-    timing(time) {
-      return getTimeElapsedSinceGettingTask(time);
-    },
-  },
-};
+  };
 </script>
 
 <style lang="scss" scoped>
-.container__direction {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-.button {
-  padding: 5px;
-  border-radius: 5px;
-}
-li {
-  list-style-type: square;
-}
-.titleLi,
-label {
-  font-weight: bold;
-}
-.listSolutions {
-  border: none;
-  list-style-type: circle;
-  list-style-type: style color;
-  margin-left: 0px;
-  padding: 1px;
-}
-p {
-  margin-top: 10px;
-  margin-left: 22px;
-  font-size: 18px;
-}
+  .container__direction {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .button {
+    padding: 5px;
+    border-radius: 5px;
+  }
+  li {
+    list-style-type: square;
+  }
+  .titleLi,
+  label {
+    font-weight: bold;
+  }
+  .listSolutions {
+    border: none;
+    list-style-type: circle;
+    list-style-type: style color;
+    margin-left: 0px;
+    padding: 1px;
+  }
+  p {
+    margin-top: 10px;
+    margin-left: 22px;
+    font-size: 18px;
+  }
 </style>

@@ -10,6 +10,6 @@ FournisseurRouter.post('/', FournisseurCtrl.create);
 FournisseurRouter.put('/:id', FournisseurCtrl.update);
 FournisseurRouter.delete('/:id', FournisseurCtrl.remove);
 FournisseurRouter.delete('/', FournisseurCtrl.deleteAll);
-FournisseurRouter.get('/statistique', FournisseurCtrl.getStatistique)
+FournisseurRouter.get('/statistique', FournisseurCtrl.getStatistique);
 
 export default FournisseurRouter;

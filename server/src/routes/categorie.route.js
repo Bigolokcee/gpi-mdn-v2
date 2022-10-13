@@ -10,6 +10,6 @@ categorieRouter.post('/', categorieCtrl.create);
 categorieRouter.put('/:id', categorieCtrl.update);
 categorieRouter.delete('/:id', categorieCtrl.remove);
 categorieRouter.delete('/', categorieCtrl.deleteAll);
-categorieRouter.get('/statistique', categorieCtrl.getStatistique)
+categorieRouter.get('/statistique', categorieCtrl.getStatistique);
 
 export default categorieRouter;
