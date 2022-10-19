@@ -42,6 +42,7 @@ import Test from '../components/General/Test.vue';
 /* ROOT */
 import Dashboard from '../components/Root/Dashboard.vue';
 import Fournisseur from '../components/Admin/Fournisseur.vue';
+import TaskDetailsVue from '../components/ChefDivision/TaskDetails.vue';
 
 Vue.use(VueRouter);
 
@@ -217,6 +218,11 @@ const routes = [
         path: 'suivi',
         name: 'SuiviT',
         component: SuiviT,
+      },
+      {
+        path: 'details/:id',
+        name: 'details',
+        component: TaskDetailsVue,
       },
     ],
   },

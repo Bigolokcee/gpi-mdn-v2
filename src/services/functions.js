@@ -8,9 +8,11 @@ export function getTimeElapsedSinceGettingTask(time) {
       return moment(correctDateTime).fromNow(); */
   return moment(time).fromNow();
 }
+
 export async function load(path) {
   return await fetch(_SERVER_URL + path).then((r) => r.json());
 }
+
 export async function update(path, object) {
   return await fetch(_SERVER_URL + path, {
     method: 'PUT',
@@ -20,6 +22,7 @@ export async function update(path, object) {
     },
   }).then((r) => r.json());
 }
+
 export async function post(path, object) {
   return await fetch(_SERVER_URL + path, {
     method: 'POST',
@@ -29,17 +32,20 @@ export async function post(path, object) {
     },
   }).then((r) => r.json());
 }
+
 export async function toDelete(path) {
   console.log(path);
   return await fetch(_SERVER_URL + path, {
     method: 'DELETE',
   }).then((r) => r.json());
 }
+
 export function searchInData(value, data) {
   return data.filter(
     (element) => element.libelle.includes(value) || element.code.includes(value)
   );
 }
+
 function getEntityFromCode(code) {
   const entities = [
     { name: 'Structure', code: 'D', gender: 'F' },
@@ -65,6 +71,7 @@ function getEntityFromCode(code) {
 
   return entity;
 }
+
 export function displayMessage(code) {
   var message = null;
   var button = '';
@@ -237,6 +244,7 @@ console.log("LIBELLE	REFERENCE	TYPE	MARQUE	MODEL	NUMERO	FOURNISSEUR	CATEGORIE	ST
     }
 }
  */
+
 export function changeTitle(name) {
   document.title = `MDN-${name}`;
 }

@@ -1,7 +1,9 @@
 <template>
   <div class="userForm">
     <Header :user="user" :withSearchBar="false" />
-    <Problem />
+    <div class="problem-container">
+      <Problem />
+    </div>
   </div>
 </template>
 
@@ -87,4 +89,8 @@
   };
 </script>
 
-<style scoped></style>
+<style>
+  .problem-container {
+    margin-top: 100px;
+  }
+</style>

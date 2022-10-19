@@ -62,7 +62,7 @@
           ></span>
         </div>
         <div class="stats">
-          <strong>10</strong>
+          <strong>{{ stats.new }}</strong>
           <span style="font-size: 12px">Nouvelles requêtes</span>
         </div>
       </div>
@@ -75,7 +75,7 @@
           ></span>
         </div>
         <div class="stats">
-          <strong>10</strong>
+          <strong>{{ stats.pending }}</strong>
           <span style="font-size: 12px">Requêtes en attentes</span>
         </div>
       </div>
@@ -88,7 +88,7 @@
           ></span>
         </div>
         <div class="stats">
-          <strong>10</strong>
+          <strong>{{ stats.inProgress }}</strong>
           <span style="font-size: 12px">Requêtes en cours</span>
         </div>
       </div>
@@ -101,7 +101,7 @@
           ></span>
         </div>
         <div class="stats">
-          <strong>10</strong>
+          <strong>{{ stats.finished }}</strong>
           <span style="font-size: 12px">Requêtes terminées</span>
         </div>
       </div>
@@ -119,7 +119,7 @@
         <table>
           <thead>
             <tr>
-              <th>Référence de la requête</th>
+              <th>Réf</th>
               <th>Source</th>
               <th>Auteur</th>
               <th>Date de la requête</th>
@@ -484,6 +484,18 @@
 
         this.needMateriel.forEach((it) => ok.push(it));
         return ok;
+      },
+      stats: function () {
+        return {
+          new: this.problems.filter((p) => p.statut == 'false').length,
+          pending: this.problems.filter((p) => p.statut == 'false').length,
+          inProgress: this.problems.filter(
+            (p) => p.statut == 'true' && p.isProgress == true
+          ).length,
+          finished: this.problems.filter(
+            (p) => p.statut == 'true' && p.isProgress == false
+          ).length,
+        };
       },
       /* statut(){ 
     

@@ -2,7 +2,8 @@ const config = {
   mode: 'prod',
   _devServerUrl: 'http://localhost:5500/',
   _devServerUrlWS: 'ws://localhost:5500/',
-  _devDbUrl: 'mongodb://localhost:27017/gpi',
+  _devDbUrl:
+    'mongodb+srv://bigolo:bigolo@cluster0.fa9wf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   _prodDbUrl:
     'mongodb+srv://bigolo:bigolo@cluster0.fa9wf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   _prodServerUrl: 'https://warm-chamber-13731.herokuapp.com/',

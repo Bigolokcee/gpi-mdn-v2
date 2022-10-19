@@ -433,8 +433,18 @@ async function update(req, res) {
 }
 
 async function one(req, res) {
+  const { id } = req.params;
   try {
-    const data = await Problem.findOne({ enabled: true });
+    const data = await Problem.findOne({ _id: id }, { enabled: true })
+      .populate({
+        path: 'sender',
+        populate: {
+          path: 'direction',
+        },
+      })
+      .populate('assignedTo')
+      .populate('executeBy')
+      .populate('materiel');
     return res.status(200).json({
       status: 200,
       message: 'Data successfully send',

@@ -60,7 +60,7 @@
           ></span>
         </div>
         <div class="stats">
-          <strong>10</strong>
+          <strong>{{ stats.new }}</strong>
           <span style="font-size: 12px">Nouvelles requêtes</span>
         </div>
       </div>
@@ -73,7 +73,7 @@
           ></span>
         </div>
         <div class="stats">
-          <strong>10</strong>
+          <strong>{{ stats.pending }}</strong>
           <span style="font-size: 12px">Requêtes en attentes</span>
         </div>
       </div>
@@ -86,7 +86,7 @@
           ></span>
         </div>
         <div class="stats">
-          <strong>10</strong>
+          <strong>{{ stats.inProgress }}</strong>
           <span style="font-size: 12px">Requêtes en cours</span>
         </div>
       </div>
@@ -99,7 +99,7 @@
           ></span>
         </div>
         <div class="stats">
-          <strong>10</strong>
+          <strong>{{ stats.finished }}</strong>
           <span style="font-size: 12px">Requêtes terminées</span>
         </div>
       </div>
@@ -126,54 +126,38 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>Germany</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
+            <tr
+              id="app"
+              class="section container"
+              v-for="(p, index) in filtered()"
+              :key="p._id"
+            >
+              <td :class="showPbClass[index]">{{ index + 1 }}</td>
+              <td>{{ p.sender.fonction }} - {{ p.sender.direction.code }}</td>
+              <td>{{ p.sender.nom }} {{ p.sender.prenom }}</td>
+              <td>{{ p.createdAt[2] | timing }}</td>
               <td>
-                <button>Voir détails</button>
+                <i
+                  class="fas fa-circle statusEnCours"
+                  v-if="p.statut == 'true' && p.isProgress == true"
+                >
+                  <span>En cours</span>
+                </i>
+                <i
+                  class="fas fa-circle statusEnAttente"
+                  v-else-if="p.statut == 'false'"
+                >
+                  <span>En attente</span>
+                </i>
+                <i
+                  class="fas fa-circle statusTermine"
+                  v-else-if="p.isProgress == false"
+                >
+                  <span>Terminé</span>
+                </i>
               </td>
-            </tr>
-            <tr>
-              <td>Centro comercial Moctezuma</td>
-              <td>Francisco Chang</td>
-              <td>Mexico</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
               <td>
-                <button>Voir détails</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Ernst Handel</td>
-              <td>Roland Mendel</td>
-              <td>Austria</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>
-                <button>Voir détails</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Ernst Handel</td>
-              <td>Roland Mendel</td>
-              <td>Austria</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>
-                <button>Voir détails</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Ernst Handel</td>
-              <td>Roland Mendel</td>
-              <td>Austria</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>
-                <button>Voir détails</button>
+                <button @click="seeDetails(p._id)">Voir détails</button>
               </td>
             </tr>
           </tbody>
@@ -433,6 +417,9 @@
         this.isOpen[i] = !this.isOpen[i];
         this.isOpen = [...this.isOpen];
       },
+      seeDetails(id) {
+        this.$router.push('/chefDivision/details/' + id);
+      },
     },
     computed: {
       showPbClass: function () {
@@ -445,6 +432,18 @@
           })
         );
         return openClasses;
+      },
+      stats: function () {
+        return {
+          new: this.problems.filter((p) => p.statut == 'false').length,
+          pending: this.problems.filter((p) => p.statut == 'false').length,
+          inProgress: this.problems.filter(
+            (p) => p.statut == 'true' && p.isProgress == true
+          ).length,
+          finished: this.problems.filter(
+            (p) => p.statut == 'true' && p.isProgress == false
+          ).length,
+        };
       },
     },
     mounted() {
@@ -580,5 +579,30 @@
     border: 1px solid gray;
     border-radius: 1px;
     outline: none;
+  }
+
+  .statusEnCours {
+    color: #9006c2;
+    padding: 4px 8px;
+    border-radius: 40px;
+    background: #f9ebfe;
+    font-size: 15px;
+  }
+  .statusEnAttente {
+    padding: 4px 8px;
+    border-radius: 40px;
+    color: #d96c19;
+    background: #fcf1e8;
+  }
+  .statusTermine {
+    padding: 4px 8px;
+    border-radius: 40px;
+    background: #edf9f0;
+    color: green;
+  }
+  .statusEnCours span,
+  .statusEnAttente span,
+  .statusTermine span {
+    margin-left: 5px;
   }
 </style>
