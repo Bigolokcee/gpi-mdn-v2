@@ -178,7 +178,7 @@
           @click="deleteFournisseur = false"
         ></div>
 
-        <form v-if="deleteFournisseur" class="formCategorie">
+        <form v-if="deleteFournisseur" class="formCategorie" @submit.prevent="deleteCategory">
           <button class="close" @click="deleteFournisseur = false">x</button>
           <div>
             <p>
@@ -314,6 +314,7 @@
           );
           if (result.status == 201) {
             displayMessage('Fr-Del');
+            this.deleteFournisseur = false
             this.loadData();
           }
         } else {

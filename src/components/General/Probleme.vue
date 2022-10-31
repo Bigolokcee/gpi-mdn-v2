@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="container-msg" v-if="isOpen">
+    <!-- <div class="container-msg" v-if="isOpen">
       <span>Vous n'avez aucune opération en cours ...</span>
       <span class="closeButton" @click="isOpen = false">X</span>
-    </div>
+    </div> -->
 
     <div class="divUser">
       <span style="position: relative; top: 20px">

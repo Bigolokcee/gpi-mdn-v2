@@ -54,7 +54,7 @@
               </p>
               <p>
                 <label for="">Entrer le numero</label>
-                <input class="input" type="text" v-model="materiel.numero" />
+                <input class="input" type="number" v-model="materiel.numero" />
               </p>
             </div>
 
@@ -105,7 +105,7 @@
       </div>
       <!-- liste du materiel -->
       <table>
-        <tr>
+        <thead>
           <th>
             <input
               type="checkbox"
@@ -125,7 +125,7 @@
           <th>STATUT</th>
           <th v-if="userStatut == 'root'">TUTELLE</th>
           <th>ACTIONS</th>
-        </tr>
+        </thead>
         <tr v-for="m in filteredList" :key="m._id">
           <td>
             <input
@@ -647,6 +647,7 @@
           // this.idsEntity = [];
           displayMessage('M-Cr');
           this.loadMateriels();
+          event.target.reset()
         }
       },
       showModalUpdate(currentMateriel) {

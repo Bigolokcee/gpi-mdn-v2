@@ -196,18 +196,7 @@
                 <p v-if="p.executeBy != null" style="margin-top: 10px">
                   {{ p.executeBy.prenom }} {{ p.executeBy.nom }}
                 </p>
-                <p v-else style="margin-top: 10px">
-                  <!-- <span class="titleLi">EXECUTER PAR </span> -->
-                  <select name="" id="" @change="select" class="selectMateriel">
-                    <option value="">Selectionner un technicien</option>
-                    <option v-for="c in technicien" :key="c._id" :value="c._id">
-                      {{ c.nom }} {{ c.prenom }}
-                    </option>
-                  </select>
-                  <button class="button" @click="assign(p)">
-                    ASSIGNER LA TACHE
-                  </button>
-                </p>
+                <p v-else style="margin-top: 10px">Pas encore assigné</p>
               </li>
               <li>
                 <span class="titleLi">MATERIEL CONCERNE </span><br />
@@ -231,19 +220,30 @@
               </li>
               <li v-if="userStatut != 'administrateur'">
                 <span class="titleLi">SOLUTIONS PRECONISEES : </span>
-                <span
-                  v-if="p.solutionPreconise && p.solutionPreconise.length != 0"
+                <p
+                  v-if="p.solutionPreconise && p.solutionPreconise.length != 0 && userStatut != 'technicien'"
                 >
-                  <ul
+                  {{p.solutionPreconise}}
+                </p>
+                <span v-else-if="userStatut == 'technicien'">
+                  <!-- <ul
                     v-for="(solution, index) in p.solutionPreconise"
                     :key="index"
                   >
                     <li class="listSolutions">{{ solution }}</li>
-                  </ul>
+                  </ul> -->
                   <textarea
                     v-if="
-                      p.solutionPreconise.length % 2 != 0 && p.statut == 'false'
+                      p.solutionPreconise && p.solutionPreconise.length % 2 != 0 && p.statut == 'false'
                     "
+                    rows="1"
+                    type="text"
+                    class="textarea sp"
+                    placeholder="ENTRER LA SOLUTION PRECONISEE"
+                  >
+                  </textarea>
+                  <textarea
+                    v-else
                     rows="1"
                     type="text"
                     class="textarea sp"
@@ -253,7 +253,7 @@
 
                   <div>
                     <button
-                      v-if="p.statut == 'false'"
+                      v-if="userStatut=='technicien'"
                       class="button"
                       @click="sendDiagnostique(p)"
                     >
@@ -261,7 +261,6 @@
                     </button>
                   </div>
                 </span>
-                <p v-else>Aucune solution n'a encore été préconisée</p>
               </li>
               <li v-if="p.isProgress == 'false'">
                 <span>Date de fin : </span>
@@ -290,16 +289,15 @@
 </template>
 
 <script>
-  import Swal from 'sweetalert2';
-import { load, update } from '../../services/functions';
+  import { load } from '../../services/functions';
+import { getCurrentSessionUser } from '../../services/storage';
 
   export default {
     data() {
       return {
         p: {},
+        userStatut: getCurrentSessionUser().statut,
         loading: true,
-        selected : null, 
-        technicien : null
       };
     },
     async mounted() {
@@ -307,34 +305,8 @@ import { load, update } from '../../services/functions';
       await this.getProbleme();
       this.loading = false;
       console.log(this.p);
-      this.loadTechnicien()
     },
     methods: {
-
-      async loadTechnicien() {
-        // const c = await load("users?tutelle="+this.tutelleId+"&statut=chefDivision");
-        const c = await load('users/all?statut=technicien');
-        console.log(c.data);
-        this.technicien = c.data;
-      },
-
-      async assign(p) {
-        p.executeBy = this.selected;
-        // p.createdAt.push(new Date().toISOString());
-
-        await update('probleme/' + p._id, {
-          executeBy: p.executeBy,
-          createdAt: p.createdAt,
-        });
-
-        //displayMessage("T-Ass");
-        Swal.fire('Assignée', 'La tâche a été assigné avec succès', 'success');
-        this.getProbleme();
-        // this.socket.send(JSON.stringify(p));
-      },
-      select(e) {
-        this.selected = e.target.value;
-      },
       async getProbleme() {
         console.log(this.$route.params);
         const res = await load('probleme/' + this.$route.params.id);

@@ -468,8 +468,8 @@
       async deleteD() {
         var permission = await isAdmin(this.connectedUser);
         if (permission.status == 200) {
-          // var result = await toDelete("directions/all" + this.currentDirection);
-          var result = await toDelete('directions/all');
+          var result = await toDelete("directions/" + this.currentDirection);
+          // var result = await toDelete('directions/all');
           if (result.status == 201) {
             displayMessage('D-Del');
             this.loadData();

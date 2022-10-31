@@ -1,12 +1,15 @@
 import Swal from 'sweetalert2';
 import { _SERVER_URL } from './environment';
-import moment from 'moment';
+// import moment from 'moment';
 
 export function getTimeElapsedSinceGettingTask(time) {
   /*   moment.locale('fr');
       var correctDateTime = time.substr(0, time.length - 1)
       return moment(correctDateTime).fromNow(); */
-  return moment(time).fromNow();
+  // return moment(time).fromNow();
+  let t = new Date(time)
+
+  return (t.getDate() > 9 ? t.getDate() : "0"+t.getDate() )+" / "+(t.getMonth() > 9 ? t.getMonth() : "0"+t.getMonth() )+" / "+t.getFullYear()+" "+(t.getHours() > 9 ? t.getHours() : "0"+t.getHours() )+":"+(t.getMinutes() > 9 ? t.getMinutes() : "0"+t.getMinutes() )
 }
 
 export async function load(path) {

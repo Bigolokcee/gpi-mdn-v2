@@ -161,7 +161,7 @@
           @click="deleteCategorie = false"
         ></div>
 
-        <form v-if="deleteCategorie" class="formCategorie">
+        <form v-if="deleteCategorie" class="formCategorie" @submit.prevent="deleteCategory">
           <button class="close" @click="deleteCategorie = false">x</button>
           <div>
             <p>
@@ -345,6 +345,7 @@
           var result = await toDelete('categories/' + this.currentCategorieId);
           if (result.status == 201) {
             displayMessage('C-Del');
+            this.deleteCategorie = false;
             this.loadData();
             this.loadData();
           }
@@ -362,7 +363,8 @@
         event.preventDefault();
 
         try {
-          this.newValue = this.oldLibelle;
+          this.newValue = this.oldCategorie.libelle;
+          console.log(this.newValue);
           const mod = await update('categories/' + this.currentCategorieId, {
             libelle: this.newValue,
           });
@@ -370,6 +372,7 @@
           if (mod.status === 201) {
             this.isSuccess = true;
             this.responsePost = mod.message;
+            this.modifyCategorie = false;
             this.actualValue = '';
             this.loadData();
             displayMessage('C-Upd');

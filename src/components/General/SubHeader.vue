@@ -105,18 +105,18 @@
         :options="options"
         defaultLabel="Trier selon un attribut"
       />
-      <Select
+      <!-- <Select
         v-if="connectedUserStatut == 'root'"
         @selectTutelle="selectedTutelle"
         :tutelles="tutelles"
         defaultLabel="Trier selon une tutelle"
-      />
-      <Select
+      /> -->
+      <!-- <Select
         @selectLi="selectFilter"
         :materielOptions="options"
         defaultLabel="Trier selon un attribut"
         v-if="materiel"
-      />
+      /> -->
       <div class="sortAlphabetic">
         <img
           :src="require(`../../assets/${url}`)"

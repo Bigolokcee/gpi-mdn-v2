@@ -70,8 +70,8 @@
       <div class="statDiv">
         <div class="divIcon">
           <span
+            style="background-color: #fff4ec; color: #e07a2c"
             class="fas fa-ellipsis-h icon"
-            style="background-color: #ebddf9; color: #9006c2"
           ></span>
         </div>
         <div class="stats">
@@ -84,7 +84,7 @@
         <div class="divIcon">
           <span
             class="fas fa-ellipsis-h icon"
-            style="background-color: #fff4ec; color: #e07a2c"
+            style="background-color: #ebddf9; color: #9006c2"
           ></span>
         </div>
         <div class="stats">
@@ -107,12 +107,12 @@
       </div>
     </div>
 
-    <div class="divBeforeTable">
+    <!-- <div class="divBeforeTable">
       <h3>Requêtes reçentes</h3>
       <a href="#"
         >Voir toutes les requêtes <span class="fas fa-arrow-right"></span
       ></a>
-    </div>
+    </div> -->
 
     <div id="table-wrapper">
       <div id="table-scroll">
@@ -137,7 +137,7 @@
               <td :class="showPbClass[index]">{{ index + 1 }}</td>
               <td>{{ p.sender.fonction }} - {{ p.sender.direction.code }}</td>
               <td>{{ p.sender.nom }} {{ p.sender.prenom }}</td>
-              <td>{{ p.createdAt[2] | timing }}</td>
+              <td>{{ new Date(p.sender.createdAt).toLocaleString() }}</td>
               <td>
                 <i
                   class="fas fa-circle statusEnCours"
@@ -159,7 +159,7 @@
                 </i>
               </td>
               <td>
-                <button>Voir détails</button>
+                <button @click="seeDetails(p._id)">Voir détails</button>
               </td>
             </tr>
           </tbody>
@@ -343,6 +343,9 @@
       };
     },
     methods: {
+      seeDetails(id) {
+        this.$router.push('/technicien/details/' + id);
+      },
       updateP() {
         //alert("oj");
       },

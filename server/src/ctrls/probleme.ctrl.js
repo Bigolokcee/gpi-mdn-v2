@@ -9,19 +9,27 @@ async function all(req, res) {
     const tutelle = req.query.tutelle;
     const isProgress = req.query.isProgress;
 
-    assignedTo == undefined ? null : req.query.assignedTo;
-    executeBy == undefined ? null : req.query.executeBy;
+    // console.log(assignedTo);
+    // console.log("solutionPreconise",solutionPreconise);
+
+
+    // assignedTo == undefined ? null : req.query.assignedTo;
+    // executeBy == undefined ? null : req.query.executeBy;
+
 
     let data = null;
 
     // console.log(executeBy + " || " + assignedTo + " || " + solutionPreconise)
 
     //data = await Problem.find({ enabled: true, assignedTo, executeBy }).populate('sender').populate('assignedTo').populate('executeBy').populate('materiel').sort({createdAt: -1})
+    // data = await Problem.find({
+    //   enabled: true,
+    //   assignedTo,
+    //   executeBy,
+    //   tutelle,
+    // })
     data = await Problem.find({
-      enabled: true,
-      assignedTo,
-      executeBy,
-      tutelle,
+      enabled: true
     })
       .populate({
         path: 'sender',
@@ -33,6 +41,7 @@ async function all(req, res) {
       .populate('materiel')
       .sort({ createdAt: -1 });
 
+    // console.log(data);
     if (assignedTo == undefined && executeBy != undefined) {
       //Pour avoir les taches éffectué par le technicien
       data = await Problem.find({ enabled: true, tutelle })
@@ -75,8 +84,8 @@ async function all(req, res) {
         .populate('executeBy')
         .populate('materiel');
     }
-    if (solutionPreconise == 'true' && assignedTo != undefined) {
-      //console.log(assignedTo)
+    if (assignedTo != undefined) {
+      console.log(assignedTo)
       data = await Problem.find({ enabled: true, assignedTo, tutelle })
         .populate({
           path: 'sender',

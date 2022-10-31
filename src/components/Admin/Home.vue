@@ -10,90 +10,61 @@
     />
     <Loader :data="problems" />
 
+    <div id="table-wrapper">
+      <div id="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Référence de la requête</th>
+              <th>Source</th>
+              <th>Auteur</th>
+              <th>Date de la requête</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              id="app"
+              class="section container"
+              v-for="(p, index) in problems"
+              :key="p._id"
+            >
+              <td :class="showPbClass[index]">{{ index + 1 }}</td>
+              <td>{{ p.sender.fonction }} - {{ p.sender.direction.code }}</td>
+              <td>{{ p.sender.nom }} {{ p.sender.prenom }}</td>
+              <td>{{  new Date(p.sender.createdAt).toLocaleString() }}</td>
+              <td>
+                <i
+                  class="fas fa-circle statusEnCours"
+                  v-if="p.statut == 'true' && p.isProgress == true"
+                >
+                  <span>En cours</span>
+                </i>
+                <i
+                  class="fas fa-circle statusEnAttente"
+                  v-else-if="p.statut == 'false'"
+                >
+                  <span>En attente</span>
+                </i>
+                <i
+                  class="fas fa-circle statusTermine"
+                  v-else-if="p.isProgress == false"
+                >
+                  <span>Terminé</span>
+                </i>
+              </td>
+              <td>
+                <button @click="seeDetails(p._id)">Voir détails</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- body requete -->
     <!-- <h1 v-if = "problems.length === 0" style="text-align: center">Vous n'avez aucune tache en cours !</h1> -->
-    <div class="container__direction container-tiket">
-      <!-- affichage du ticket -->
-      <section
-        id="app"
-        class="section container"
-        v-for="(p, index) in problems"
-        :key="p._id"
-      >
-        <article class="message" :class="showPbClass[index]">
-          <div class="containerInfoProblem">
-            <div class="deskAndTime">
-              <div class="desk">
-                <h4 style="font-weight: 200; font-size: 15px">
-                  <i class="fa fa-map-marker"></i>
-                  {{ p.sender.fonction }} -
-                  {{ p.sender.direction.code }}
-                </h4>
-              </div>
-              <div class="Time">
-                <i class="fa fa-clock"></i> {{ p.createdAt[0] | timing }}
-              </div>
-            </div>
-
-            <div class="nameAndDate">
-              <div class="name">
-                <h4>{{ p.sender.nom }} {{ p.sender.prenom }}</h4>
-              </div>
-              <div>
-                <i class="fas fa-sync"> En attente</i>
-              </div>
-            </div>
-          </div>
-
-          <div class="message-header" @click="showPb(index)">
-            Voir le Problème
-          </div>
-          <div class="message-body">
-            <div class="problem">
-              <!-- <li v-if = "p.materiel.libelle != null">Materiel: {{ p.materiel.libelle }}</li> -->
-              <li>
-                <span class="titleLi">MATERIEL CONCERNE </span>
-                <p>
-                  {{ p.materiel[0].libelle }}
-                </p>
-              </li>
-              <li>
-                <span class="titleLi">DESCRIPTION DU PROBLEME </span><br />
-                <p>{{ p.description }}</p>
-              </li>
-            </div>
-            <div class="message-content"></div>
-            <p>
-              <select name="" id="" @change="select" class="selectMateriel">
-                <option value="">Selectionner un chef division</option>
-                <option v-for="c in chefDivisions" :key="c._id" :value="c._id">
-                  {{ c.nom }} {{ c.prenom }}
-                </option>
-              </select>
-              <button class="button" @click="assign(p)">
-                ASSIGNER LA TACHE
-              </button>
-            </p>
-
-            <!-- Bloc transférer les taches au MDN -->
-            <!--  <p v-if="p.sender.tutelle.code != 'DSI'">
-              <select name="" id="" @change="select" class="selectMateriel">
-                <option value="">Selectionner un administrateur</option>
-                <option v-for="c in admins" :key="c._id" :value="c._id"
-                  >{{ c.nom }} {{ c.prenom }}</option
-                >
-              </select>
-              <button class="button" @click="assign(p)">
-               TRANSFERER LA TACHE
-              </button>
-            </p>
- -->
-            <!-- Fin bloc -->
-          </div>
-        </article>
-      </section>
-    </div>
-    <Pagination :nbrPages="nbreTask" />
     <!--  <Ticket :problems="problems" /> -->
   </div>
 </template>
@@ -117,13 +88,13 @@
   import { getCurrentSessionUser } from '../../services/storage';
   import SubHeader from '../General/SubHeader.vue';
   import Loader from '../General/Loader.vue';
-  import Pagination from '../Formulaire/Pagination.vue';
+  // import Pagination from '../Formulaire/Pagination.vue';
   import { load, update } from '../../services/functions';
   import Swal from 'sweetalert2';
 
   //import Ticket from '../General/Ticket.vue'
   export default {
-    components: { Pagination, SubHeader, Loader },
+    components: { SubHeader, Loader },
     name: 'Home',
 
     data() {
@@ -163,6 +134,10 @@
     methods: {
       select(e) {
         this.selected = e.target.value;
+      },
+
+      seeDetails(id) {
+        this.$router.push('/admin/details/' + id);
       },
 
       async loadProblems() {

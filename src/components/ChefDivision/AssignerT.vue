@@ -6,70 +6,57 @@
       :nbrOfTask="problems.length"
       needSearchBar="no"
     />
-    <div class="container-tiket">
-      <div v-if="problems.length === 0" class="success">
-        <div>{{ emptyTache }}</div>
+    <div id="table-wrapper">
+      <div id="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Référence de la requête</th>
+              <th>Source</th>
+              <th>Auteur</th>
+              <th>Date de la requête</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              id="app"
+              class="section container"
+              v-for="(p, index) in problems"
+              :key="p._id"
+            >
+              <td :class="showPbClass[index]">{{ index + 1 }}</td>
+              <td>{{ p.sender.fonction }} - {{ p.sender.direction.code }}</td>
+              <td>{{ p.sender.nom }} {{ p.sender.prenom }}</td>
+              <td>{{  new Date(p.sender.createdAt).toLocaleString() }}</td>
+              <td>
+                <i
+                  class="fas fa-circle statusEnCours"
+                  v-if="p.statut == 'true' && p.isProgress == true"
+                >
+                  <span>En cours</span>
+                </i>
+                <i
+                  class="fas fa-circle statusEnAttente"
+                  v-else-if="p.statut == 'false'"
+                >
+                  <span>En attente</span>
+                </i>
+                <i
+                  class="fas fa-circle statusTermine"
+                  v-else-if="p.isProgress == false"
+                >
+                  <span>Terminé</span>
+                </i>
+              </td>
+              <td>
+                <button @click="seeDetails(p._id)">Voir détails</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <!-- Ticket  -->
-      <section
-        id="app"
-        class="section container"
-        v-for="(p, index) in problems"
-        :key="p._id"
-      >
-        <article class="message" :class="showPbClass[index]">
-          <div class="containerInfoProblem">
-            <div class="deskAndTime">
-              <div class="desk">
-                <h4 style="font-weight: 200; font-size: 15px">
-                  <i class="fa fa-map-marker"></i>{{ p.sender.fonction }} -
-                  {{ p.sender.direction.code }}
-                </h4>
-              </div>
-              <div class="Time">
-                <i class="fa fa-clock"></i>{{ p.createdAt[1] | timing }}
-              </div>
-            </div>
-            <div class="nameAndDate">
-              <div class="name">
-                <h5>{{ p.sender.nom }} - {{ p.sender.prenom }}</h5>
-              </div>
-              <div>
-                <i class="fas fa-sync"> En attente</i>
-              </div>
-            </div>
-          </div>
-
-          <div class="message-header" @click="showPb(index)">
-            Voir le Problème
-          </div>
-          <div class="message-body">
-            <div class="problem">
-              <li>
-                <span class="titleLi">MATERIEL CONCERNE </span><br />
-                <p>{{ p.materiel[0].libelle }}</p>
-              </li>
-              <li>
-                <span class="titleLi">DESCRIPTION DU PROBLEME</span><br />
-                <p>{{ p.description }}</p>
-              </li>
-            </div>
-            <div class="message-content"></div>
-            <p>
-              <select @change="select" class="selectMateriel">
-                <option value="">Selectionner un technicien</option>
-                <option v-for="t in techniciens" :key="t._id" :value="t._id">
-                  {{ t.nom }} {{ t.prenom }}
-                </option>
-              </select>
-
-              <button @click="assign(p)" class="button">
-                ASSIGNER LA TACHE
-              </button>
-            </p>
-          </div>
-        </article>
-      </section>
     </div>
   </div>
 </template>
@@ -105,6 +92,10 @@
       };
     },
     methods: {
+      seeDetails(id) {
+        this.$router.push('/chefDivision/details/' + id);
+      },
+
       select(e) {
         this.selected = e.target.value;
       },

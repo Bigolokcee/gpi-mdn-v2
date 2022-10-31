@@ -14,6 +14,9 @@ import Statistique from '../components/Admin/Statistique.vue';
 import Tache from '../components/Admin/Tache.vue';
 import RouterShow from '../components/Admin/RouterShow.vue';
 import Modele from '../components/Admin/Modele';
+import TaskDetailsAdmin from '../components/Admin/TaskDetails.vue';
+import SuiviTAdmin from '../components/Admin/SuiviT.vue';
+
 
 /* --------------------- */
 import Probleme from '../components/General/Probleme.vue';
@@ -26,6 +29,7 @@ import Utilisateur_Home from '../components/Utilisateur/Utilisateur_Home.vue';
 import Home_Tech from '../components/Technicien/Home.vue';
 /* import Intervention from '../components/Technicien/Intervention.vue' */
 import SuiviTache_Tech from '../components/Technicien/SuiviTache_Tech.vue';
+import TaskDetailsTech   from '../components/Technicien/TaskDetails.vue';
 /* --------------------- */
 
 /* CHEF DIVISION */
@@ -122,6 +126,16 @@ const routes = [
         component: Home_Admin,
       },
       {
+        path: 'details/:id',
+        name: 'details',
+        component: TaskDetailsAdmin,
+      },
+      {
+        path: 'suivi',
+        name: 'SuiviT',
+        component: SuiviTAdmin,
+      },
+      {
         path: 'tache',
         name: 'Tache',
         component: Tache,
@@ -154,7 +168,7 @@ const routes = [
       {
         path: 'suiviTache',
         name: 'SuiviT',
-        component: SuiviT,
+        component: SuiviTAdmin,
       },
       {
         path: 'utilisateurs',
@@ -241,6 +255,11 @@ const routes = [
         path: 'probleme',
         name: 'Probleme',
         component: Probleme,
+      } ,
+      {
+        path: 'details/:id',
+        name: 'details',
+        component: TaskDetailsTech,
       } /*,
        {
         path: '/',

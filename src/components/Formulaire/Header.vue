@@ -13,14 +13,15 @@
       >Système de gestion informatisée du parc informatique et des pannes</span
     >
     <nav class="divIcone">
-      <span class="dropbtn name" style="color: #fff">
-        <i class="fas fa-user" style="color: #fff"></i>
-        {{ user.prenom }} {{ user.nom }}</span
-      >
 
       <!-- <span class="name" @click="hideMenu = !hideMenu"></span> -->
       <div class="dropdown">
-        <i class="fas fa-caret-down" style="color: #fff"></i>
+
+        <span class="dropbtn name" style="color: #fff">
+          <i class="fas fa-user" style="color: #fff"></i>
+          {{ user.prenom }} {{ user.nom }}
+          <i class="fas fa-caret-down" style="color: #fff"></i>
+        </span>
         <div class="dropdown-content">
           <div v-if="hideMenu" class="menu">
             <!-- <div>
@@ -30,10 +31,12 @@
                 </span>
               </div> -->
             <div>
-              <span @click="disconnect" class="name">
-                <i title="Se Déconnecter" class="fas fa-sign-out-alt"> </i>
-                Déconnexion
-              </span>
+              <div class="disconnect name w-100" @click="disconnect" >
+                <span >
+                  <i title="Se Déconnecter" class="fas fa-sign-out-alt"> </i>
+                  Déconnexion
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -89,6 +92,21 @@
 </script>
 
 <style scoped>
+
+  .disconnect {
+    height: 50px;
+    display: flex;
+    align-items: center;
+  }
+
+  .disconnect span{
+    font-size: 20px;
+  }
+
+  .disconnect span:hover{
+    color: rgb(228, 78, 78);
+  }
+
   .containerHeader {
     display: flex;
     flex-direction: row;

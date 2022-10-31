@@ -418,7 +418,7 @@
         this.isOpen = [...this.isOpen];
       },
       seeDetails(id) {
-        this.$router.push('/chefDivision/details/' + id);
+        this.$router.push('/admin/details/' + id);
       },
     },
     computed: {
