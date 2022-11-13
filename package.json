@@ -16,6 +16,7 @@
     "deploy": "npm-run-all build build:server login:firebase deploy:client login:heroku deploy:server"
   },
   "dependencies": {
+    "@linways/table-to-excel": "^1.0.4",
     "@saeris/vue-spinners": "^1.0.8",
     "@syncfusion/ej2-vue-dropdowns": "^19.3.53",
     "core-js": "^3.6.5",

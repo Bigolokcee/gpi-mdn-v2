@@ -104,7 +104,11 @@
         </form>
       </div>
       <!-- liste du materiel -->
-      <table>
+      <div class="" style="margin-top: 10px;">
+
+        <button @click="toExcel()"> Exporter </button>
+      </div>
+      <table ref="table">
         <thead>
           <th>
             <input
@@ -320,6 +324,7 @@
 
 <script>
   //import { _SERVER_URL } from "../../services/environment";
+  import TableToExcel from "@linways/table-to-excel";
   import SubHeader from '../General/SubHeader.vue';
   import Loader from '../General/Loader.vue';
   import {
@@ -469,6 +474,14 @@
       };
     },
     methods: {
+      toExcel(){
+        TableToExcel.convert(this.$refs.table, {
+          name: "materiels.xlsx",
+          sheet: {
+            name: "Sheet 1"
+          }
+        });
+      },
       sortByRadio(value) {
         this.filteredList = this.filteredList.sort((a, b) => {
           return ('' + a[value]).localeCompare(b[value]);
