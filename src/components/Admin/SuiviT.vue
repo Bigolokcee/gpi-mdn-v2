@@ -65,7 +65,7 @@
         </div>
       </div>
 
-      <div class="statDiv">
+      <!-- <div class="statDiv">
         <div class="divIcon">
           <span
             style="background-color: #fff4ec; color: #e07a2c"
@@ -76,7 +76,7 @@
           <strong>{{ stats.pending }}</strong>
           <span style="font-size: 12px">Requêtes en attentes</span>
         </div>
-      </div>
+      </div> -->
 
       <div class="statDiv">
         <div class="divIcon">
@@ -135,25 +135,49 @@
               <td :class="showPbClass[index]">{{ index + 1 }}</td>
               <td>{{ p.sender.fonction }} - {{ p.sender.direction.code }}</td>
               <td>{{ p.sender.nom }} {{ p.sender.prenom }}</td>
-              <td>{{  new Date(p.sender.createdAt).toLocaleString() }}</td>
+              <td>{{  new Date(p.createdAt).toLocaleString() }}</td>
               <td>
                 <i
-                  class="fas fa-circle statusEnCours"
-                  v-if="p.statut == 'true' && p.isProgress == true"
-                >
-                  <span>En cours</span>
-                </i>
-                <i
                   class="fas fa-circle statusEnAttente"
-                  v-else-if="p.statut == 'false'"
+                  v-if="p.statut == 'false'"
                 >
-                  <span>En attente</span>
+                  <span>Nouveau</span>
                 </i>
                 <i
                   class="fas fa-circle statusTermine"
                   v-else-if="p.isProgress == false"
                 >
                   <span>Terminé</span>
+                </i>
+                <i
+                  class="fas fa-circle statusEnCours"
+                  v-if="p.statut == 'en-cours-1' && p.isProgress == true"
+                >
+                  <span>En cours(Chef Division "Assigner Technicien")</span>
+                </i>
+                <i
+                  class="fas fa-circle statusEnCours"
+                  v-else-if="p.statut == 'en-cours-2' && p.isProgress == true"
+                >
+                  <span>En cours (Technicien "Proposition Solution")</span>
+                </i>
+                <i
+                  class="fas fa-circle statusEnCours"
+                  v-else-if="p.statut == 'en-cours-3' && p.isProgress == true"
+                >
+                  <span>En cours (Chef Division "Approbation Solution")</span>
+                </i>
+                <i
+                  class="fas fa-circle statusEnCours"
+                  v-else-if="p.statut == 'en-cours-4' && p.isProgress == true"
+                >
+                  <span>En cours (Technicien "Réparation")</span>
+                </i>
+                <i
+                  class="fas fa-circle statusEnCours"
+                  v-else-if="p.statut == 'en-cours-5' && p.isProgress == true"
+                >
+                  <span>En cours (Chef Division "Cloture du problème")</span>
                 </i>
               </td>
               <td>
@@ -436,12 +460,12 @@
       stats: function () {
         return {
           new: this.problems.filter((p) => p.statut == 'false').length,
-          pending: this.problems.filter((p) => p.statut == 'false').length,
+          // pending: this.problems.filter((p) => p.statut == 'false').length,
           inProgress: this.problems.filter(
-            (p) => p.statut == 'true' && p.isProgress == true
+            (p) => p.statut.includes("en-cours") && p.isProgress == true
           ).length,
           finished: this.problems.filter(
-            (p) => p.statut == 'true' && p.isProgress == false
+            (p) => p.isProgress == false
           ).length,
         };
       },

@@ -13,6 +13,7 @@ import userRouter from './routes/user.route';
 import problemRouter from './routes/probleme.route';
 import modeleRouter from './routes/modele.route';
 import fournisseurRouter from './routes/fournisseur.route';
+import pieceRouter from './routes/piece.route';
 import { _DB_URL } from '../../src/services/environment';
 
 require('dotenv').config();
@@ -37,6 +38,7 @@ app.use('/modeles', modeleRouter);
 app.use('/fonctions', fonctionRouter);
 app.use('/categories', categorieRouter);
 app.use('/materiels', materielRouter);
+app.use('/pieces', pieceRouter);
 app.use('/historiques', historiqueCtrl);
 app.use('/users', userRouter);
 app.use('/probleme', problemRouter(wss));

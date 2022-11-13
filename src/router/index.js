@@ -7,6 +7,7 @@ import Direction from '../components/Admin/Direction.vue';
 import Fonction from '../components/Admin/Fonction.vue';
 import Admin_Utilisateur from '../components/Admin/Admin_Utilisateur.vue';
 import Materiel from '../components/Admin/Materiel.vue';
+import Piece from '../components/Admin/Piece.vue';
 import Categorie from '../components/Admin/Categorie.vue';
 import Home_Admin from '../components/Admin/Home.vue';
 import Historique from '../components/Admin/Historique.vue';
@@ -189,6 +190,11 @@ const routes = [
         path: 'materiels',
         name: 'Materiel',
         component: Materiel,
+      },
+      {
+        path: 'pieces',
+        name: 'Piece',
+        component: Piece,
       },
       {
         path: 'fournisseurs',

@@ -191,7 +191,7 @@
                   </button>
                 </p>
               </li>
-              <li>
+              <li v-if="userStatut != 'technicien'">
                 <span class="titleLi">EXECUTER PAR </span>
                 <p v-if="p.executeBy != null" style="margin-top: 10px">
                   {{ p.executeBy.prenom }} {{ p.executeBy.nom }}
@@ -206,26 +206,34 @@
                 <span class="titleLi">DESCRIPTION DU PROBLEME</span><br />
                 <p>{{ p.description }}</p>
               </li>
+              <li v-if="userStatut =='technicien'">
+                <span class="titleLi">Piece de rechange demandé</span>
+                <!-- <span class="titleLi">EXECUTER PAR </span> -->
+                <select name="" id="" @change="select" class="selectMateriel" v-model="selected">
+                    <option value="">Selectionner la piece</option>
+                    <option v-for="c in pieces" :key="c._id" :value="c._id">
+                      {{ c.libelle }}
+                    </option>
+                  </select>
+                  <button class="button" @click="assign(p)" v-if=" p.statut=='en-cours-2' ">
+                    {{p.statut}}
+                    Selectionner Piece
+                  </button>
+              </li>
               <li
-                v-if="
-                  p.materiel && p.materiel.length == 2 && p.statut == 'false'
+                v-else-if="
+                  p.piece &&  p.statut.includes('en-cours')
                 "
               >
-                <span class="titleLi">MATERIEL DEMANDE</span><br />
-                <p>{{ p.materiel[1].libelle }}</p>
+                <span class="titleLi">Piece de rechange demandé</span><br />
+                <p>{{ p.piece[0].libelle }}</p>
               </li>
               <li v-else>
-                <span class="titleLi">MATERIEL DEMANDE </span>
-                <p>L'intervention ne requiert pas un nouveau matériel</p>
+                <span>Aucune Piece n'est selectionné</span>
               </li>
-              <li v-if="userStatut != 'administrateur'">
+              <li v-if="userStatut == 'technicien'">
                 <span class="titleLi">SOLUTIONS PRECONISEES : </span>
-                <p
-                  v-if="p.solutionPreconise && p.solutionPreconise.length != 0 && userStatut != 'technicien'"
-                >
-                  {{p.solutionPreconise}}
-                </p>
-                <span v-else-if="userStatut == 'technicien'">
+                <span >
                   <!-- <ul
                     v-for="(solution, index) in p.solutionPreconise"
                     :key="index"
@@ -233,17 +241,7 @@
                     <li class="listSolutions">{{ solution }}</li>
                   </ul> -->
                   <textarea
-                    v-if="
-                      p.solutionPreconise && p.solutionPreconise.length % 2 != 0 && p.statut == 'false'
-                    "
-                    rows="1"
-                    type="text"
-                    class="textarea sp"
-                    placeholder="ENTRER LA SOLUTION PRECONISEE"
-                  >
-                  </textarea>
-                  <textarea
-                    v-else
+                    v-model="solutionPreconise"
                     rows="1"
                     type="text"
                     class="textarea sp"
@@ -253,7 +251,7 @@
 
                   <div>
                     <button
-                      v-if="userStatut=='technicien'"
+                      v-if="userStatut=='technicien' && p.statut=='en-cours-2' "
                       class="button"
                       @click="sendDiagnostique(p)"
                     >
@@ -262,20 +260,30 @@
                   </div>
                 </span>
               </li>
+              <li v-else>
+                <span class="titleLi">SOLUTIONS PRECONISEES : </span>
+                <span >
+                  <!-- <ul
+                    v-for="(solution, index) in p.solutionPreconise"
+                    :key="index"
+                  >
+                    <li class="listSolutions">{{ solution }}</li>
+                  </ul> -->
+                  <span> {{p.solutionPreconise ? p.solutionPreconise[0] : "Pas encore de solution"}} </span>
+                </span>
+              </li>
               <li v-if="p.isProgress == 'false'">
                 <span>Date de fin : </span>
                 <p>{{ p.endAt }}</p>
               </li>
               <li
                 v-if="
-                  p.solutionPreconise &&
-                  p.solutionPreconise.length % 2 != 0 &&
-                  p.statut == 'false' &&
-                  userStatut != 'administrateur'
+                  p.statut == 'en-cours-4' &&
+                  userStatut == 'technicien'
                 "
               >
-                <button @click="approuve(p)" class="button">
-                  APPROUVER LA SOLUTION
+                <button @click="end(p)" class="button">
+                  Réparation terminé
                 </button>
               </li>
             </div>
@@ -289,7 +297,8 @@
 </template>
 
 <script>
-  import { load } from '../../services/functions';
+  import Swal from 'sweetalert2';
+import { load, update } from '../../services/functions';
 import { getCurrentSessionUser } from '../../services/storage';
 
   export default {
@@ -298,6 +307,9 @@ import { getCurrentSessionUser } from '../../services/storage';
         p: {},
         userStatut: getCurrentSessionUser().statut,
         loading: true,
+        pieces : [],
+        selected : "" ,
+        solutionPreconise : ""
       };
     },
     async mounted() {
@@ -305,8 +317,66 @@ import { getCurrentSessionUser } from '../../services/storage';
       await this.getProbleme();
       this.loading = false;
       console.log(this.p);
+      this.loadPiece()
+      console.log(this.p.piece);
+      if (this.p.piece) {
+        this.selected = this.p.piece[0]._id
+      }
+      console.log("solution", this.p.solutionPreconise);
+      this.solutionPreconise = this.p.solutionPreconise ? this.p.solutionPreconise[0] : ""
     },
     methods: {
+
+      async assign(p) {
+        p.piece = this.selected;
+        // p.createdAt.push(new Date().toISOString());
+
+        await update('probleme/' + p._id, {
+          createdAt: p.createdAt,
+          piece : p.piece
+        });
+
+        //displayMessage("T-Ass");
+        Swal.fire('Piece', 'La piece a été enregistré avec succès', 'success');
+        this.getProbleme();
+        // this.socket.send(JSON.stringify(p));
+      },
+      async end(p) {
+        p.piece = this.selected;
+        // p.createdAt.push(new Date().toISOString());
+
+        await update('probleme/' + p._id, {
+          statut : 'en-cours-5'
+        });
+
+        //displayMessage("T-Ass");
+        Swal.fire('Réparation', 'Statut du problème mis à jour avec succès', 'success');
+        this.getProbleme();
+        // this.socket.send(JSON.stringify(p));
+      },
+      async sendDiagnostique(p) {
+        // p.createdAt.push(new Date().toISOString());
+
+        await update('probleme/' + p._id, {
+          createdAt: p.createdAt,
+          piece : p.piece,
+          solutionPreconise : this.solutionPreconise,
+          statut : 'en-cours-3'
+        });
+
+        //displayMessage("T-Ass");
+        Swal.fire('Solution', 'La solution a été envoyé', 'success');
+        // this.socket.send(JSON.stringify(p));
+      },
+      select(e) {
+        this.selected = e.target.value;
+      },
+      async loadPiece() {
+        // const c = await load("users?tutelle="+this.tutelleId+"&statut=chefDivision");
+        const c = await load('pieces/all');
+        console.log(c.data);
+        this.pieces = c.data;
+      },
       async getProbleme() {
         console.log(this.$route.params);
         const res = await load('probleme/' + this.$route.params.id);

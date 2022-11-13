@@ -25,6 +25,12 @@ const ProblemeSchema = new Schema({
     required: false,
     ref: 'Materiel',
   },
+  piece: {
+    type: [Schema.Types.ObjectId],
+    default: null,
+    required: false,
+    ref: 'Piece',
+  },
   description: {
     type: String,
     require: true,

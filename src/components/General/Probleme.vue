@@ -119,6 +119,8 @@
         ) {
           const data = await post('probleme', this.utilisateur);
 
+          console.log(data);
+
           if (data.response === 201) {
             this.isSuccess = true;
             Swal(

@@ -51,6 +51,12 @@
             iconeAlt: '',
           },
           {
+            to: '/admin/pieces',
+            name: 'PIECE',
+            iconeL: 'material.png',
+            iconeAlt: '',
+          },
+          {
             to: '/admin/utilisateurs',
             name: 'UTILISATEUR',
             iconeL: 'users.png',

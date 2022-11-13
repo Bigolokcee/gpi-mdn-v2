@@ -219,64 +219,45 @@
               </li>
               <li
                 v-if="
-                  p.materiel && p.materiel.length == 2 && p.statut == 'false'
+                  p.piece &&  p.statut.includes('en-cours')
                 "
               >
-                <span class="titleLi">MATERIEL DEMANDE</span><br />
-                <p>{{ p.materiel[1].libelle }}</p>
+                <span class="titleLi">Piece de rechange demandé</span><br />
+                <p>{{ p.piece[0].libelle }}</p>
               </li>
-              <li v-else>
-                <span class="titleLi">MATERIEL DEMANDE </span>
-                <p>L'intervention ne requiert pas un nouveau matériel</p>
+              <li
+                v-else
+              >
+                <span class="titleLi">Piece de rechange demandé</span><br />
+                <p>Aucune pièce demander</p>
               </li>
-              <li v-if="userStatut != 'administrateur'">
+              <li >
                 <span class="titleLi">SOLUTIONS PRECONISEES : </span>
-                <span
-                  v-if="p.solutionPreconise && p.solutionPreconise.length != 0"
-                >
-                  <ul
+                <span >
+                  <!-- <ul
                     v-for="(solution, index) in p.solutionPreconise"
                     :key="index"
                   >
                     <li class="listSolutions">{{ solution }}</li>
-                  </ul>
-                  <textarea
-                    v-if="
-                      p.solutionPreconise.length % 2 != 0 && p.statut == 'false'
-                    "
-                    rows="1"
-                    type="text"
-                    class="textarea sp"
-                    placeholder="ENTRER LA SOLUTION PRECONISEE"
-                  >
-                  </textarea>
+                  </ul> -->
+                  <span> {{p.solutionPreconise ? p.solutionPreconise[0] : "Pas encore de solution"}} </span>
 
-                  <div>
-                    <button
-                      v-if="p.statut == 'false'"
-                      class="button"
-                      @click="sendDiagnostique(p)"
-                    >
-                      Envoyer Le Diagnostique
-                    </button>
-                  </div>
+                  <button @click="approuve(p)" v-if="p.statut=='en-cours-3'" class="button">
+                    APPROUVER LA SOLUTION
+                  </button>
                 </span>
-                <p v-else>Aucune solution n'a encore été préconisée</p>
-              </li>
+              </li>              
               <li v-if="p.isProgress == 'false'">
                 <span>Date de fin : </span>
                 <p>{{ p.endAt }}</p>
               </li>
               <li
                 v-if="
-                  p.solutionPreconise &&
-                  p.solutionPreconise.length % 2 != 0 &&
-                  p.statut == 'false' &&
-                  userStatut != 'administrateur'
+                  p.statut == 'en-cours-5'
                 "
               >
-                <button @click="approuve(p)" class="button">
-                  APPROUVER LA SOLUTION
+                <button @click="cloture(p)" class="button">
+                  Cloturer le problème
                 </button>
               </li>
             </div>
@@ -325,6 +306,7 @@ import { load, update } from '../../services/functions';
         await update('probleme/' + p._id, {
           executeBy: p.executeBy,
           createdAt: p.createdAt,
+          statut : 'en-cours-2'
         });
 
         //displayMessage("T-Ass");
@@ -332,6 +314,35 @@ import { load, update } from '../../services/functions';
         this.getProbleme();
         // this.socket.send(JSON.stringify(p));
       },
+
+
+
+      async approuve(p) {
+        // p.createdAt.push(new Date().toISOString());
+
+        await update('probleme/' + p._id, {
+          statut : 'en-cours-4'
+        });
+
+        //displayMessage("T-Ass");
+        Swal.fire('Solution', 'La solution a été approuvée avec succès', 'success');
+        this.getProbleme();
+        // this.socket.send(JSON.stringify(p));
+      },
+      async cloture(p) {
+        // p.createdAt.push(new Date().toISOString());
+
+        await update('probleme/' + p._id, {
+          statut : '',
+          isProgress : false
+        });
+
+        //displayMessage("T-Ass");
+        Swal.fire('Problème', 'Le problème a été clotûré avec succès', 'success');
+        this.getProbleme();
+        // this.socket.send(JSON.stringify(p));
+      },
+
       select(e) {
         this.selected = e.target.value;
       },

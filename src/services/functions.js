@@ -59,6 +59,7 @@ function getEntityFromCode(code) {
     { name: 'Tache', code: 'T', gender: 'F' },
     { name: 'Tutelle', code: 'Tu', gender: 'F' },
     { name: 'Fournisseur', code: 'Fr', gender: 'G' },
+    { name: 'Piece', code: 'P', gender: 'F' },
   ];
 
   let entity = Object.create(null);

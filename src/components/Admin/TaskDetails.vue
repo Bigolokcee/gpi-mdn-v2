@@ -48,12 +48,11 @@
           <div class="message-body">
             <div class="problem">
               <li v-if="userStatut == 'administrateur'">
-                <span class="titleLi">ASSIGNE A </span>
+                <span class="titleLi">ASSIGNER A </span>
                 <p v-if="p.assignedTo != null" style="margin-top: 10px">
                   {{ p.assignedTo.prenom }} {{ p.assignedTo.nom }}
                 </p>
                 <p v-else style="margin-top: 10px">
-                  <span class="titleLi">ASSIGNER A </span>
                   <select name="" id="" @change="select" class="selectMateriel">
                     <option value="">Selectionner un chef division</option>
                     <option v-for="c in chefDivisions" :key="c._id" :value="c._id">
@@ -82,49 +81,29 @@
               </li>
               <li
                 v-if="
-                  p.materiel && p.materiel.length == 2 && p.statut == 'false'
+                  p.piece &&  p.statut.includes('en-cours')
                 "
               >
-                <span class="titleLi">MATERIEL DEMANDE</span><br />
-                <p>{{ p.materiel[1].libelle }}</p>
+                <span class="titleLi">Piece de rechange demandé</span><br />
+                <p>{{ p.piece[0].libelle }}</p>
               </li>
-              <li v-else>
-                <span class="titleLi">MATERIEL DEMANDE </span>
-                <p>L'intervention ne requiert pas un nouveau matériel</p>
+              <li
+                v-else
+              >
+                <span class="titleLi">Piece de rechange demandé</span><br />
+                <p>Aucune pièce demander</p>
               </li>
-              <li v-if="userStatut != 'administrateur'">
+              <li >
                 <span class="titleLi">SOLUTIONS PRECONISEES : </span>
-                <span
-                  v-if="p.solutionPreconise && p.solutionPreconise.length != 0"
-                >
-                  <ul
+                <span >
+                  <!-- <ul
                     v-for="(solution, index) in p.solutionPreconise"
                     :key="index"
                   >
                     <li class="listSolutions">{{ solution }}</li>
-                  </ul>
-                  <textarea
-                    v-if="
-                      p.solutionPreconise.length % 2 != 0 && p.statut == 'false'
-                    "
-                    rows="1"
-                    type="text"
-                    class="textarea sp"
-                    placeholder="ENTRER LA SOLUTION PRECONISEE"
-                  >
-                  </textarea>
-
-                  <div>
-                    <button
-                      v-if="p.statut == 'false'"
-                      class="button"
-                      @click="sendDiagnostique(p)"
-                    >
-                      Envoyer Le Diagnostique
-                    </button>
-                  </div>
+                  </ul> -->
+                  <span> {{p.solutionPreconise ? p.solutionPreconise[0] : "Pas encore de solution"}} </span>
                 </span>
-                <p v-else>Aucune solution n'a encore été préconisée</p>
               </li>
               <li v-if="p.isProgress == 'false'">
                 <span>Date de fin : </span>
@@ -188,6 +167,7 @@ import { getCurrentSessionUser } from '../../services/storage';
         await update('probleme/' + p._id, {
           assignedTo: p.assignedTo,
           createdAt: p.createdAt,
+          statut : 'en-cours-1'
         });
 
         //displayMessage("T-Ass");
@@ -199,8 +179,9 @@ import { getCurrentSessionUser } from '../../services/storage';
         this.selected = e.target.value;
       },
       async getProbleme() {
-        console.log(this.$route.params);
+        // console.log(this.$route.params);
         const res = await load('probleme/' + this.$route.params.id);
+        console.log(res.data);
         this.p = res.data;
       },
 
