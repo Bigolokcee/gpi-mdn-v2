@@ -1,5 +1,5 @@
 const config = {
-  mode: 'prod',
+  mode: 'dev',
   _devServerUrl: 'http://localhost:5500/',
   _devServerUrlWS: 'ws://localhost:5500/',
   _devDbUrl:

@@ -71,7 +71,7 @@
                   class="fas fa-circle statusEnCours"
                   v-else-if="p.statut == 'en-cours-5' && p.isProgress == true"
                 >
-                  <span>En cours (Chef Division "Cloture du problème")</span>
+                  <span>En cours (Chef Division "Cloture de la requête")</span>
                 </i>
               </td>
               <td>

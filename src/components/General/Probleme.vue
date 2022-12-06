@@ -86,7 +86,8 @@
     displayMessage,
     load,
     post,
-    update,
+update,
+    // update,
   } from '../../services/functions';
   export default {
     //sender assignedTo comeFrom problem
@@ -129,9 +130,9 @@
               'warning'
             );
           } else {
-            // var statut = "Indisponible"
+            var statut = "Hors usage"
             await update('materiels/' + this.utilisateur.materiel, {
-              statut: 'Indisponible',
+              statut: statut
             });
             Swal.fire(
               'Merci',
@@ -153,7 +154,8 @@
       async loadMaterielInUserDesk() {
         //Recharger tous le materiels présents dans le bureau
         // var tutelleId = getCurrentSessionUser().tutelle;
-        const result = await load('materiels/all?statut=Disponible');
+        const result = await load('materiels/all?statut=Disponible&direction='+this.user.direction);
+        console.log("result", result.data);
 
         this.materiels = result.data;
       },

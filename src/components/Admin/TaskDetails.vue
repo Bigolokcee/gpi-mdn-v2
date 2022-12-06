@@ -47,7 +47,7 @@
           </div> -->
           <div class="message-body">
             <div class="problem">
-              <li v-if="userStatut == 'administrateur'">
+              <!-- <li v-if="(user.statut == 'administrateur' && user.fonction == 'Help/Desk')">
                 <span class="titleLi">ASSIGNER A </span>
                 <p v-if="p.assignedTo != null" style="margin-top: 10px">
                   {{ p.assignedTo.prenom }} {{ p.assignedTo.nom }}
@@ -63,13 +63,23 @@
                     ASSIGNER LA TACHE
                   </button>
                 </p>
-              </li>
+              </li> -->
               <li>
                 <span class="titleLi">EXECUTER PAR </span>
                 <p v-if="p.executeBy != null" style="margin-top: 10px">
                   {{ p.executeBy.prenom }} {{ p.executeBy.nom }}
                 </p>
-                <p v-else style="margin-top: 10px">Pas encore assigné</p>
+                <p v-else style="margin-top: 10px">
+                  <select name="" id="" @change="select" class="selectMateriel">
+                    <option value="">Selectionner un technicien</option>
+                    <option v-for="c in technicien" :key="c._id" :value="c._id">
+                      {{ c.nom }} {{ c.prenom }}
+                    </option>
+                  </select>
+                  <button class="button" @click="assign(p)">
+                    ASSIGNER LA TACHE
+                  </button>
+                </p>
               </li>
               <li>
                 <span class="titleLi">MATERIEL CONCERNE </span><br />
@@ -81,7 +91,7 @@
               </li>
               <li
                 v-if="
-                  p.piece &&  p.statut.includes('en-cours')
+                  p.piece[0]
                 "
               >
                 <span class="titleLi">Piece de rechange demandé</span><br />
@@ -95,7 +105,7 @@
               </li>
               <li >
                 <span class="titleLi">SOLUTIONS PRECONISEES : </span>
-                <span >
+                <p >
                   <!-- <ul
                     v-for="(solution, index) in p.solutionPreconise"
                     :key="index"
@@ -103,7 +113,7 @@
                     <li class="listSolutions">{{ solution }}</li>
                   </ul> -->
                   <span> {{p.solutionPreconise ? p.solutionPreconise[0] : "Pas encore de solution"}} </span>
-                </span>
+                </p>
               </li>
               <li v-if="p.isProgress == 'false'">
                 <span>Date de fin : </span>
@@ -114,7 +124,7 @@
                   p.solutionPreconise &&
                   p.solutionPreconise.length % 2 != 0 &&
                   p.statut == 'false' &&
-                  userStatut != 'administrateur'
+                  user.statut != 'administrateur'
                 "
               >
                 <button @click="approuve(p)" class="button">
@@ -140,10 +150,11 @@ import { getCurrentSessionUser } from '../../services/storage';
       return {
 
         chefDivisions: [],
-        userStatut: getCurrentSessionUser().statut,
+        user: getCurrentSessionUser(),
         selected : null,
         p: {},
         loading: true,
+        technicien : []
       };
     },
     async mounted() {
@@ -152,8 +163,17 @@ import { getCurrentSessionUser } from '../../services/storage';
       this.loading = false;
       this.loadChefDivisions();
       console.log(this.p);
+      this.loadTechnicien()
     },
     methods: {
+
+
+      async loadTechnicien() {
+        // const c = await load("users?tutelle="+this.tutelleId+"&statut=chefDivision");
+        const c = await load('users/all?statut=technicien');
+        console.log(c.data);
+        this.technicien = c.data;
+      },
 
       async loadChefDivisions() {
         // const c = await load("users?tutelle="+this.tutelleId+"&statut=chefDivision");
@@ -165,9 +185,10 @@ import { getCurrentSessionUser } from '../../services/storage';
         // p.createdAt.push(new Date().toISOString());
 
         await update('probleme/' + p._id, {
-          assignedTo: p.assignedTo,
+          // assignedTo: p.assignedTo,
+          executeBy: p.assignedTo,
           createdAt: p.createdAt,
-          statut : 'en-cours-1'
+          statut : 'en-cours-2'
         });
 
         //displayMessage("T-Ass");

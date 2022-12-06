@@ -1,4 +1,4 @@
-<template>
+1<template>
   <div>
     <button style="margin-left: 20px" @click="goBack">Retour</button>
     <div class="" v-if="!loading">
@@ -141,7 +141,7 @@
               </div>
               <div class="Time">
                 <i class="fa fa-clock"></i
-                >{{ new Date(p.sender.createdAt).toLocaleString() }}
+                >{{ new Date(p.createdAt).toLocaleString() }}
               </div>
             </div>
 
@@ -206,7 +206,7 @@
                 <span class="titleLi">DESCRIPTION DU PROBLEME</span><br />
                 <p>{{ p.description }}</p>
               </li>
-              <li v-if="userStatut =='technicien'">
+              <li v-if="(userStatut =='technicien' && !p.piece[0])">
                 <span class="titleLi">Piece de rechange demandé</span>
                 <!-- <span class="titleLi">EXECUTER PAR </span> -->
                 <select name="" id="" @change="select" class="selectMateriel" v-model="selected">
@@ -216,13 +216,12 @@
                     </option>
                   </select>
                   <button class="button" @click="assign(p)" v-if=" p.statut=='en-cours-2' ">
-                    {{p.statut}}
                     Selectionner Piece
                   </button>
               </li>
               <li
                 v-else-if="
-                  p.piece &&  p.statut.includes('en-cours')
+                  p.piece[0]
                 "
               >
                 <span class="titleLi">Piece de rechange demandé</span><br />
@@ -231,7 +230,7 @@
               <li v-else>
                 <span>Aucune Piece n'est selectionné</span>
               </li>
-              <li v-if="userStatut == 'technicien'">
+              <li v-if="(userStatut == 'technicien' && !p.solutionPreconise[0])">
                 <span class="titleLi">SOLUTIONS PRECONISEES : </span>
                 <span >
                   <!-- <ul
@@ -245,7 +244,7 @@
                     rows="1"
                     type="text"
                     class="textarea sp"
-                    placeholder="ENTRER LA SOLUTION PRECONISEE"
+                    placeholder="ENTRER LA SOLUTION UTILISEE"
                   >
                   </textarea>
 
@@ -255,14 +254,14 @@
                       class="button"
                       @click="sendDiagnostique(p)"
                     >
-                      Envoyer Le Diagnostique
+                      Soumettre solution utilisée
                     </button>
                   </div>
                 </span>
               </li>
               <li v-else>
                 <span class="titleLi">SOLUTIONS PRECONISEES : </span>
-                <span >
+                <p >
                   <!-- <ul
                     v-for="(solution, index) in p.solutionPreconise"
                     :key="index"
@@ -270,7 +269,7 @@
                     <li class="listSolutions">{{ solution }}</li>
                   </ul> -->
                   <span> {{p.solutionPreconise ? p.solutionPreconise[0] : "Pas encore de solution"}} </span>
-                </span>
+                </p>
               </li>
               <li v-if="p.isProgress == 'false'">
                 <span>Date de fin : </span>
@@ -361,7 +360,10 @@ import { getCurrentSessionUser } from '../../services/storage';
           createdAt: p.createdAt,
           piece : p.piece,
           solutionPreconise : this.solutionPreconise,
-          statut : 'en-cours-3'
+          // statut : 'en-cours-3'
+
+          statut : '',
+          isProgress : false
         });
 
         //displayMessage("T-Ass");

@@ -2,6 +2,7 @@ import Problem from '../models/probleme.model';
 
 async function all(req, res) {
   try {
+    console.log("req", req.query);
     /* Show data by Tutelle and Direction */
     const executeBy = req.query.executeBy;
     const assignedTo = req.query.assignedTo;
@@ -41,10 +42,10 @@ async function all(req, res) {
       .populate('materiel')
       .sort({ createdAt: -1 });
 
-    // console.log(data);
-    if (assignedTo == undefined && executeBy != undefined) {
+      if (assignedTo == undefined && executeBy != undefined) {
+      console.log("1");
       //Pour avoir les taches éffectué par le technicien
-      data = await Problem.find({ enabled: true, tutelle })
+      data = await Problem.find({ enabled: true, executeBy: executeBy })
         .populate({
           path: 'sender',
           populate: {
@@ -54,10 +55,9 @@ async function all(req, res) {
         .populate('assignedTo')
         .populate('executeBy')
         .populate('materiel');
-    }
-    if (executeBy != undefined && solutionPreconise == undefined) {
+    }else if (executeBy != undefined && solutionPreconise == undefined) {
       solutionPreconise = null;
-      data = await Problem.find({ enabled: true, tutelle })
+      data = await Problem.find({ enabled: true })
         .populate({
           path: 'sender',
           populate: {
@@ -67,8 +67,7 @@ async function all(req, res) {
         .populate('assignedTo')
         .populate('executeBy')
         .populate('materiel');
-    }
-    if (executeBy != undefined && solutionPreconise != undefined) {
+    }else if (executeBy != undefined && solutionPreconise != undefined) {
       data = await Problem.find({
         enabled: true,
         tutelle,
@@ -83,10 +82,8 @@ async function all(req, res) {
         .populate('assignedTo')
         .populate('executeBy')
         .populate('materiel');
-    }
-    if (assignedTo != undefined) {
-      console.log(assignedTo)
-      data = await Problem.find({ enabled: true, assignedTo, tutelle })
+    }else if (assignedTo != undefined) {
+      data = await Problem.find({ enabled: true, assignedTo : assignedTo })
         .populate({
           path: 'sender',
           populate: {
@@ -98,8 +95,7 @@ async function all(req, res) {
         .populate('materiel');
 
       // console.log(data)
-    }
-    if (
+    }else if (
       solutionPreconise == undefined &&
       executeBy != undefined &&
       assignedTo == undefined
@@ -114,8 +110,7 @@ async function all(req, res) {
         .populate('assignedTo')
         .populate('executeBy')
         .populate('materiel');
-    }
-    if (solutionPreconise == 'true' && executeBy != null) {
+    }else if (solutionPreconise == 'true' && executeBy != null) {
       //Pour avoir les taches suivies par le Chef de division
       solutionPreconise != null;
       data = await Problem.find({ enabled: true, tutelle })
@@ -128,8 +123,7 @@ async function all(req, res) {
         .populate('assignedTo')
         .populate('executeBy')
         .populate('materiel');
-    }
-    if (isProgress != undefined) {
+    }else if (isProgress != undefined) {
       console.log(isProgress);
       //Pour avoir les taches suivies par le Chef de division
       data = await Problem.find({ enabled: true, tutelle, isProgress })

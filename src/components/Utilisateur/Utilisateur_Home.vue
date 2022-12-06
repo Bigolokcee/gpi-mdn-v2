@@ -1,8 +1,8 @@
 <template>
-  <div class="userForm">
-    <Header :user="user" :withSearchBar="false" />
-    <div class="problem-container">
-      <Problem />
+  <div class="">
+    <div class="containerNavigation">
+      <Header :user="user" :withSearchBar="false" />
+      <Navigation :routes="routes" />
     </div>
   </div>
 </template>
@@ -10,16 +10,16 @@
 <script>
   import { getCurrentSessionUser } from '../../services/storage';
   import { redirectIfNotLogin } from '../../services/guard';
-  import Problem from '../General/Probleme.vue';
   import Header from '../Formulaire/Header.vue';
   import Swal from 'sweetalert2';
+  import Navigation from '../General/Navigation.vue';
   import { displayMessage, load, post } from '../../services/functions';
 
   export default {
     //sender assignedTo comeFrom problem
     components: {
-      Problem,
       Header,
+      Navigation
     },
     data() {
       return {
@@ -29,6 +29,18 @@
           materiel: '',
           createdAt: '',
         },
+        routes: [
+          {
+            to: '/utilisateur',
+            name: 'POSER UN PROBLEME',
+            iconeL: 'problem.jpg',
+          },
+          {
+            to: '/utilisateur/patrimoine',
+            name: 'Mon patrimoine',
+            iconeL: 'material.png',
+          },
+        ],
         showForm: false,
         modifyPassword: false,
         user: getCurrentSessionUser(),
@@ -81,6 +93,7 @@
     },
     mounted() {
       redirectIfNotLogin(this.$router);
+        console.log(getCurrentSessionUser());
       Notification.requestPermission((status) => {
         console.log(status);
       });

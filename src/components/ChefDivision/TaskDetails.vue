@@ -141,7 +141,7 @@
               </div>
               <div class="Time">
                 <i class="fa fa-clock"></i
-                >{{ new Date(p.sender.createdAt).toLocaleString() }}
+                >{{ new Date(p.createdAt).toLocaleString() }}
               </div>
             </div>
 
@@ -173,24 +173,6 @@
           </div> -->
           <div class="message-body">
             <div class="problem">
-              <li v-if="userStatut == 'administrateur'">
-                <span class="titleLi">ASSIGNE A </span>
-                <p v-if="p.assignedTo != null" style="margin-top: 10px">
-                  {{ p.assignedTo.prenom }} {{ p.assignedTo.nom }}
-                </p>
-                <p v-else style="margin-top: 10px">
-                  <span class="titleLi">ASSIGNER A </span>
-                  <select name="" id="" @change="select" class="selectMateriel">
-                    <option value="">Selectionner un chef division</option>
-                    <option v-for="c in chefDivisions" :key="c._id" :value="c._id">
-                      {{ c.nom }} {{ c.prenom }}
-                    </option>
-                  </select>
-                  <button class="button" @click="assign(p)">
-                    ASSIGNER LA TACHE
-                  </button>
-                </p>
-              </li>
               <li>
                 <span class="titleLi">EXECUTER PAR </span>
                 <p v-if="p.executeBy != null" style="margin-top: 10px">
@@ -219,7 +201,7 @@
               </li>
               <li
                 v-if="
-                  p.piece &&  p.statut.includes('en-cours')
+                  p.piece[0] &&  p.statut.includes('en-cours')
                 "
               >
                 <span class="titleLi">Piece de rechange demandé</span><br />
@@ -257,7 +239,7 @@
                 "
               >
                 <button @click="cloture(p)" class="button">
-                  Cloturer le problème
+                  Cloturer la requête
                 </button>
               </li>
             </div>

@@ -137,7 +137,7 @@
               <td :class="showPbClass[index]">{{ index + 1 }}</td>
               <td>{{ p.sender.fonction }} - {{ p.sender.direction.code }}</td>
               <td>{{ p.sender.nom }} {{ p.sender.prenom }}</td>
-              <td>{{ new Date(p.sender.createdAt).toLocaleString() }}</td>
+              <td>{{ new Date(p.createdAt).toLocaleString() }}</td>
               <td>
                 <i
                   class="fas fa-circle statusEnAttente"
@@ -179,7 +179,7 @@
                   class="fas fa-circle statusEnCours"
                   v-else-if="p.statut == 'en-cours-5' && p.isProgress == true"
                 >
-                  <span>En cours (Chef Division "Cloture du problème")</span>
+                  <span>En cours (Chef Division "Cloture de la requête")</span>
                 </i>
               </td>
               <td>
@@ -374,9 +374,6 @@
         //alert("oj");
       },
       async loadProblems() {
-        console.log(
-          'probleme?executeBy=' + this.user._id + '&solutionPreconise=true'
-        );
         const p = await load(
           'probleme?&executeBy=' + this.user._id + '&solutionPreconise=true'
         );
@@ -520,7 +517,7 @@
             (p) => p.statut.includes("en-cours") && p.isProgress == true
           ).length,
           finished: this.problems.filter(
-            (p) => p.statut == 'true' && p.isProgress == false
+            (p) => p.isProgress == false
           ).length,
         };
       },

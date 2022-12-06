@@ -24,6 +24,8 @@ import Probleme from '../components/General/Probleme.vue';
 
 /* Utilisateur */
 import Utilisateur_Home from '../components/Utilisateur/Utilisateur_Home.vue';
+// import Question_Utilisateur from '../components/Utilisateur/Question.vue';
+import Patrimoine from '../components/Utilisateur/Patrimoine.vue';
 /* --------------------- */
 
 /* TECHNICIEN */
@@ -279,6 +281,18 @@ const routes = [
     path: '/utilisateur',
     name: 'Utilisateur_Home',
     component: Utilisateur_Home,
+    children : [
+      {
+        path: '/',
+        name: 'Question_Utilisateur',
+        component: Probleme,
+      },
+      {
+        path: 'patrimoine',
+        name: 'Patrimoine',
+        component: Patrimoine,
+      },
+    ]
   },
   /* CONNEXION */
   {

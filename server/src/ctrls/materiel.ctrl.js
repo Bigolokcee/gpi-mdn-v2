@@ -3,7 +3,7 @@ import Materiel from '../models/materiel.model';
 async function all(req, res) {
   console.log('here');
   try {
-    var status = req.query.status;
+    var status = req.query.statut;
     if (status != undefined) {
       const data = await Materiel.find({ enabled: true, ...req.query })
         .populate('tutelle')
