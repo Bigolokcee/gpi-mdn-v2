@@ -6,8 +6,8 @@ const config = {
     'mongodb+srv://bigolo:bigolo@cluster0.fa9wf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   _prodDbUrl:
     'mongodb+srv://bigolo:bigolo@cluster0.fa9wf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
-  _prodServerUrl: 'https://gpi-mdn.onrender.com',
-  _prodServerUrlWS: 'wss://gpi-mdn.onrender.com',
+  _prodServerUrl: 'https://gpi-mdn.onrender.com/',
+  _prodServerUrlWS: 'wss://gpi-mdn.onrender.com/',
 };
 
 const _SERVER_URL =
